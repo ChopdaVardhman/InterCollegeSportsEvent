@@ -1,0 +1,111 @@
+<div class="welcome-container">
+  <!-- Top Navigation / Brand -->
+  <header class="top-nav">
+    <div class="logo">
+      <span class="logo-icon">🏆</span>
+      <span class="logo-text">SportsMeet <strong>2026</strong></span>
+    </div>
+    <div class="badge-year">Inter-College Championship</div>
+  </header>
+
+  <!-- Main Hero Content -->
+  <main class="hero-wrapper">
+    <h1 class="hero-title">
+      Welcome to the <span>Inter-College</span> Sports Meet
+    </h1>
+
+    <!-- Dean Focused Registration Card -->
+  <div class="action-grid single-card">
+  <div class="action-card primary-card">
+    <!-- Top Status Badge -->
+    <span class="role-badge">Official Authority Portal</span>
+
+    <!-- Icon & Header -->
+    <div class="card-icon-wrapper">
+      <span class="card-icon">🏛️</span>
+    </div>
+
+    <h3 class="card-title">Dean / Institutional Login</h3>
+    <p class="card-desc">
+      Only authorized Deans, Principals, or designated Sports Officers can login their institution and endorse participating athlete contingents.
+    </p>
+
+    <!-- Key Instructions / Checkpoints -->
+    <ul class="card-perks">
+      <li>Institutional Verification</li>
+      <li>Team Contingent Submission</li>
+    </ul>
+
+    <!-- Action Button (Direct router navigation) -->
+    <button 
+      type="button" 
+      class="btn btn-primary" (click)="openLoginSlider()">
+      <span>Proceed to Login</span>
+      <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Backdrop (Screen blur/dark karne ke liye) -->
+<div class="slider-backdrop" [class.show]="isLoginOpen" (click)="closeLoginSlider()"></div>
+
+<!-- Slide Bar / Drawer -->
+<aside class="login-slidebar" [class.open]="isLoginOpen">
+  <!-- Close Button -->
+  <button type="button" class="btn-close" (click)="closeLoginSlider()">&times;</button>
+
+  <div class="slidebar-header">
+    <div class="authority-icon">🏛️</div>
+    <h2>Dean Portal Login</h2>
+    <p>Apne college ke credentials se sign in karein.</p>
+  </div>
+
+  <form (submit)="onLoginSubmit($event)" class="slidebar-form">
+    <div class="form-group">
+      <label for="collegeCode">College / Institution Code</label>
+      <input type="text" id="collegeCode" placeholder="e.g. GEC-R / UNV-102" required>
+    </div>
+
+    <div class="form-group">
+      <label for="deanEmail">Dean Official Email</label>
+      <input type="email" id="deanEmail" placeholder="dean@institution.ac.in" required>
+    </div>
+
+    <div class="form-group">
+      <div class="label-row">
+        <label for="password">Password</label>
+        <a href="javascript:void(0)" class="forgot-link">Forgot?</a>
+      </div>
+      <input type="password" id="password" placeholder="••••••••" required>
+    </div>
+
+    <button type="submit" class="btn-submit">
+      Sign In & Continue &rarr;
+    </button>
+  </form>
+
+  <div class="slidebar-footer">
+    <small>Sports Authority Registration System 2026</small>
+  </div>
+</aside>
+
+    <!-- College Infrastructure Photos Section -->
+    <section class="gallery-wrapper">
+      <div class="gallery-title-box">
+        <h2>Campus & Sports Infrastructure</h2>
+        <p>Championship tournament venues and athletic facilities</p>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-card" *ngFor="let photo of facilities">
+          <div class="img-container">
+            <img [src]="photo.url" [alt]="photo.title" loading="lazy">
+          </div>
+          <div class="photo-caption">{{ photo.title }}</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
