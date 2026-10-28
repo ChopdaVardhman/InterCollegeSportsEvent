@@ -5,80 +5,186 @@
       <span class="logo-icon">🏆</span>
       <span class="logo-text">SportsMeet <strong>2026</strong></span>
     </div>
-    <div class="badge-year">Inter-College Championship</div>
+    <div class="nav-right">
+      <span class="badge-live"><span class="dot"></span> Registration Active</span>
+      <div class="badge-year">Inter-College Championship</div>
+    </div>
   </header>
 
-  <!-- Main Hero Content -->
-  <main class="hero-wrapper">
-    <h1 class="hero-title">
-      Welcome to the <span>Inter-College</span> Sports Meet
-    </h1>
+  <!-- Live Highlight Updates Bar -->
+  <div class="ticker-banner">
+    <div class="ticker-label">⚡ Live Updates</div>
+    <div class="ticker-track">
+      <span class="ticker-item">Registration deadline: Nov 15, 2026</span>
+      <span class="ticker-divider">•</span>
+      <span class="ticker-item">Badminton & Athletics Contingent verification ongoing</span>
+      <span class="ticker-divider">•</span>
+      <span class="ticker-item">Dean authorization mandatory for all official manifests</span>
+    </div>
+  </div>
 
-    <!-- Dean Focused Registration Card -->
-  <div class="action-grid single-card">
-  <div class="action-card primary-card">
-    <!-- Top Status Badge -->
-    <span class="role-badge">Official Authority Portal</span>
+  <!-- ======================================================== -->
+  <!-- HERO SLIDER SECTION (AB EK DUM UPPER FRONT PAR)           -->
+  <!-- ======================================================== -->
+  <section class="hero-slider-showcase">
+    <!-- Background Slider Track -->
+    <div class="hero-carousel-container">
+      <div 
+        class="hero-carousel-track" 
+        [style.transform]="'translateX(-' + (currentFacilityIndex * 100) + '%)'">
+        
+        <div class="hero-slide" *ngFor="let photo of facilities; let i = index">
+          <img [src]="photo.url" [alt]="photo.title" class="slide-bg-img">
+          <div class="slide-gradient-overlay"></div>
+        </div>
+      </div>
 
-    <!-- Icon & Header -->
-    <div class="card-icon-wrapper">
-      <span class="card-icon">🏛️</span>
+      <!-- Slider Arrows (Top Corner) -->
+      <div class="hero-slider-arrows">
+        <button type="button" class="arrow-btn" (click)="prevFacility()" aria-label="Previous Slide">&#10094;</button>
+        <button type="button" class="arrow-btn" (click)="nextFacility()" aria-label="Next Slide">&#10095;</button>
+      </div>
+
+      <!-- Slider Dots -->
+      <div class="hero-dots">
+        <span 
+          *ngFor="let _ of facilities; let i = index" 
+          class="hero-dot" 
+          [class.active]="i === currentFacilityIndex"
+          (click)="goToFacility(i)">
+        </span>
+      </div>
     </div>
 
-    <h3 class="card-title">Dean / Institutional Login</h3>
-    <p class="card-desc">
-      Only authorized Deans, Principals, or designated Sports Officers can login their institution and endorse participating athlete contingents.
-    </p>
+    <!-- Floating Front Overlay: Hero Text + Dean Card -->
+    <div class="hero-overlay-content">
+      <div class="hero-text-block">
+        <span class="hero-pill-tag">State University Sports Council</span>
+        <h1 class="hero-heading">
+          Welcome to the <span>Inter-College</span> Sports Championship
+        </h1>
+        <p class="hero-caption">
+          {{ facilities[currentFacilityIndex]?.title }}: {{ facilities[currentFacilityIndex]?.description }}
+        </p>
 
-    <!-- Key Instructions / Checkpoints -->
-    <ul class="card-perks">
-      <li>Institutional Verification</li>
-      <li>Team Contingent Submission</li>
-    </ul>
+        <!-- Stats Chips -->
+        <!-- <div class="hero-stats-row">
+          <div class="stat-pill">
+            <strong>40+</strong>
+            <span>Institutions</span>
+          </div>
+          <div class="stat-pill">
+            <strong>1,200+</strong>
+            <span>Athletes</span>
+          </div>
+          <div class="stat-pill">
+            <strong>16</strong>
+            <span>Gold Medals</span>
+          </div>
+        </div> -->
+      </div>
 
-    <!-- Action Button (Direct router navigation) -->
-    <button 
-      type="button" 
-      class="btn btn-primary" (click)="openLoginSlider()">
-      <span>Proceed to Login</span>
-      <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>
-    </button>
-  </div>
+      <!-- Dean Login Floating Card -->
+      <div class="action-card glass-card">
+        <div class="card-top-row">
+          <span class="role-badge">Official Authority Portal</span>
+        </div>
+
+        <div class="card-icon-wrapper">
+          <span class="card-icon">🏛️</span>
+        </div>
+
+        <h3 class="card-title">Dean / Institutional Login</h3>
+        <p class="card-desc">
+          Only authorized Deans, Principals, or Sports Officers can endorse participating athlete contingents.
+        </p>
+
+        <ul class="card-perks">
+          <li>
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Institutional Verification
+          </li>
+          <li>
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Team Contingent Submission
+          </li>
+        </ul>
+
+        <button type="button" class="btn btn-primary" (click)="openLoginSlider()">
+          <span>Proceed to Login</span>
+          <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SPORTS TOURNAMENTS CAROUSEL (LOWER SECTION)              -->
+  <!-- ======================================================== -->
+  <main class="page-body">
+    <section class="sports-slider-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Disciplines</span>
+          <h2>Featured Events & Tournaments</h2>
+          <p>Official fixtures scheduled for SportsMeet 2026</p>
+        </div>
+        <div class="slider-arrows">
+          <button type="button" class="arrow-btn round" (click)="scrollSports('left')">&#10094;</button>
+          <button type="button" class="arrow-btn round" (click)="scrollSports('right')">&#10095;</button>
+        </div>
+      </div>
+
+      <div class="sports-carousel" #sportsCarousel>
+        <div class="sports-card" *ngFor="let sport of sportsList">
+          <div class="sports-icon-bubble">{{ sport.icon }}</div>
+          <h4>{{ sport.name }}</h4>
+          <span class="sports-category">{{ sport.category }}</span>
+          <div class="teams-pill">
+            <span class="count">{{ sport.teams }}</span> Contingents Registered
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
-<!-- Backdrop (Screen blur/dark karne ke liye) -->
+<!-- ======================================================== -->
+<!-- LOGIN SLIDER & BACKDROP -->
+<!-- ======================================================== -->
 <div class="slider-backdrop" [class.show]="isLoginOpen" (click)="closeLoginSlider()"></div>
 
-<!-- Slide Bar / Drawer -->
 <aside class="login-slidebar" [class.open]="isLoginOpen">
-  <!-- Close Button -->
   <button type="button" class="btn-close" (click)="closeLoginSlider()">&times;</button>
 
   <div class="slidebar-header">
     <div class="authority-icon">🏛️</div>
     <h2>Dean Portal Login</h2>
-    <p>Apne college ke credentials se sign in karein.</p>
   </div>
 
   <form (submit)="onLoginSubmit($event)" class="slidebar-form">
     <div class="form-group">
       <label for="collegeCode">College / Institution Code</label>
-      <input type="text" id="collegeCode" placeholder="e.g. GEC-R / UNV-102" required>
+      <input type="text" id="collegeCode" placeholder="Enter Institution Code" required>
     </div>
 
     <div class="form-group">
       <label for="deanEmail">Dean Official Email</label>
-      <input type="email" id="deanEmail" placeholder="dean@institution.ac.in" required>
+      <input type="email" id="deanEmail" placeholder="Enter your Email" required>
     </div>
 
     <div class="form-group">
       <div class="label-row">
         <label for="password">Password</label>
-        <a href="javascript:void(0)" class="forgot-link">Forgot?</a>
+        <!-- <a href="javascript:void(0)" class="forgot-link">Forgot?</a> -->
       </div>
-      <input type="password" id="password" placeholder="••••••••" required>
+      <input type="password" id="password" required>
     </div>
 
     <button type="submit" class="btn-submit">
@@ -90,22 +196,3 @@
     <small>Sports Authority Registration System 2026</small>
   </div>
 </aside>
-
-    <!-- College Infrastructure Photos Section -->
-    <section class="gallery-wrapper">
-      <div class="gallery-title-box">
-        <h2>Campus & Sports Infrastructure</h2>
-        <p>Championship tournament venues and athletic facilities</p>
-      </div>
-
-      <div class="photo-grid">
-        <div class="photo-card" *ngFor="let photo of facilities">
-          <div class="img-container">
-            <img [src]="photo.url" [alt]="photo.title" loading="lazy">
-          </div>
-          <div class="photo-caption">{{ photo.title }}</div>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
