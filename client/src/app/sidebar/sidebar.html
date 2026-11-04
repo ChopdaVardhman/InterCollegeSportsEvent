@@ -1,0 +1,43 @@
+<aside class="sidebar-wrapper">
+  <!-- Brand Header -->
+  <div class="sidebar-brand">
+    <div class="brand-icon">🏆</div>
+    <div class="brand-text">
+      <h3>Sports Portal</h3>
+      <span>Dean / Verification Panel</span>
+    </div>
+  </div>
+
+  <!-- Navigation Menu Links -->
+<!-- Navigation Menu Links -->
+<nav class="sidebar-nav">
+  
+  <!-- Yeh sirf tab dikhega jab user role DRS NAHI hai (jaise ki Admin / Normal user) -->
+  <ng-container *ngIf="userRole !== 'drs'">
+    <a routerLink="/registration" routerLinkActive="active" class="nav-link">
+      <span class="icon">✏️</span>
+      <span class="title">Event Registration</span>
+    </a>
+
+    <a routerLink="/registrationList" routerLinkActive="active" class="nav-link">
+      <span class="icon">📋</span>
+      <span class="title">Registered Students</span>
+    </a>
+  </ng-container>
+
+  <!-- Yeh sirf tab dikhega jab user role DRS HOGA -->
+  <a *ngIf="userRole === 'drs'" routerLink="/drs/registrationList" routerLinkActive="active" class="nav-link">
+    <span class="icon">📋</span>
+    <span class="title">Registered Students List</span>
+  </a>
+
+</nav>
+
+<!-- Bottom Logout Button (Yeh dono hi case me hamesha dikhega) -->
+<div class="sidebar-footer">
+  <button type="button" class="btn-sidebar-logout" (click)="onLogout()">
+    <span class="logout-icon">↩</span>
+    <span>Logout</span>
+  </button>
+</div>
+</aside>

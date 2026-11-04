@@ -1,0 +1,271 @@
+<div class="list-portal-root">
+
+  <!-- 1. Enterprise Topbar Header -->
+  <header class="gov-topbar">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="portal-badge">🏆</div>
+        <div class="title-meta">
+          <h1>Sports Registration Portal</h1>
+          <p>Inter-College Tournament Participant Management &amp; Registry</p>
+        </div>
+      </div>
+      
+      <div class="header-right-actions">
+        <button type="button" class="btn-top-outline" (click)="goToRegister()">
+          <span>➕ New Registration</span>
+        </button>
+        <button type="button" class="btn-export-pdf" (click)="exportToPDF()">
+        📄 Download PDF Directory
+        </button>
+        <button type="button" class="btn-top-refresh" (click)="fetchRegisteredStudents()" [disabled]="isLoading">
+          <span>🔄 {{ isLoading ? 'Loading...' : 'Refresh Data' }}</span>
+        </button>
+        <button type="button" class="btn-top-logout" (click)="logout()">
+          <span>Logout</span>
+          <span class="icon">🚪</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Dynamic Tournament Data Overview Metrics -->
+  <section class="stats-overview-section">
+    <div class="stats-grid">
+      
+      <div class="stat-card">
+        <div class="stat-icon-wrapper total">📊</div>
+        <div class="stat-info">
+          <span class="stat-title">Total Registrations</span>
+          <h3 class="stat-number">{{ totalCount }}</h3>
+          <span class="stat-subtext">Verified candidate entries</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper sports">🎯</div>
+        <div class="stat-info">
+          <span class="stat-title">Active Disciplines</span>
+          <h3 class="stat-number">{{ sportsCount }}</h3>
+          <span class="stat-subtext">Sports categories registered</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper individual">🏃</div>
+        <div class="stat-info">
+          <span class="stat-title">Individual Athletes</span>
+          <h3 class="stat-number">{{ individualCount }}</h3>
+          <span class="stat-subtext">Single participant disciplines</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper group">👥</div>
+        <div class="stat-info">
+          <span class="stat-title">Team / Squad Players</span>
+          <h3 class="stat-number">{{ groupCount }}</h3>
+          <span class="stat-subtext">Group roster athletes</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. Main Data Container & Existing Table -->
+  <main class="main-body-container">
+    <div class="table-container">
+      
+      <!-- Section Header & Filter Toolbar -->
+      <div class="header-box">
+        <div class="title-with-pill">
+          <span class="section-bullet"></span>
+          <h2>Student Sports Registrations Directory</h2>
+        </div>
+      </div>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="filters-toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            placeholder="Search by Name, UE ID, College..." 
+            [(ngModel)]="searchQuery" 
+            (input)="applyFilters()" 
+          />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="filter-dropdown">
+          <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+            <option value="">All Categories</option>
+            <option *ngFor="let cat of categoryOptions" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+
+        <!-- Sports Dropdown -->
+        <div class="filter-dropdown">
+          <select [(ngModel)]="selectedSport" (change)="applyFilters()">
+            <option value="">All Sports</option>
+            <option *ngFor="let sport of sportOptions" [value]="sport">{{ sport }}</option>
+          </select>
+        </div>
+
+        <!-- Group / Team Name Dropdown -->
+  <div class="filter-dropdown">
+    <select [(ngModel)]="selectedGroup" (change)="applyFilters()">
+      <option value="">All Teams / Groups</option>
+      <option *ngFor="let grp of groupOptions" [value]="grp">{{ grp }}</option>
+    </select>
+  </div>
+
+        <button class="btn-reset" (click)="resetFilters()">Reset Filters</button>
+      </div>
+
+      <!-- Loading & Error -->
+      <div *ngIf="isLoading" class="loading-state">
+        <p>Loading data...</p>
+      </div>
+      <div *ngIf="errorMessage" class="error-box">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Material Table Container -->
+      <div class="table-responsive" [hidden]="isLoading">
+        <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+
+          <!-- Reg ID Column -->
+          <ng-container matColumnDef="Registration_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reg ID </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="badge id-badge">{{ item.Registration_id }}</span>
+            </td>
+          </ng-container>
+
+            <!-- Sport Name Column -->
+          <ng-container matColumnDef="Sport_Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sport Name </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="badge sport-badge">{{ item.Sport_Name }}</span>
+            </td>
+          </ng-container>
+
+            <!-- Category Column -->
+          <ng-container matColumnDef="Sports_Category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="badge" [ngClass]="item.Sports_Category === 'Group' ? 'category-group' : 'category-individual'">
+                {{ item.Sports_Category }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- UE ID Column -->
+          <ng-container matColumnDef="ue_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> UE ID </th>
+            <td mat-cell *matCellDef="let item"> <strong>{{ item.ue_id }}</strong> </td>
+          </ng-container>
+
+          <!-- Student Name Column -->
+          <ng-container matColumnDef="Student_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Student Name </th>
+            <td mat-cell *matCellDef="let item" class="student-name-text"> {{ item.Student_name }} </td>
+          </ng-container>
+
+          <!-- Gender Column -->
+          <ng-container matColumnDef="Gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="badge" [ngClass]="item.Gender === 'Female' ? 'gender-female' : 'gender-male'">
+                {{ item.Gender || '—' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Father's Name Column -->
+          <ng-container matColumnDef="Father_Name_E">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Father's Name </th>
+            <td mat-cell *matCellDef="let item"> {{ item.Father_Name_E || '—' }} </td>
+          </ng-container>
+
+          <!-- Group Name Column -->
+          <ng-container matColumnDef="Group_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Group Name </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="badge" [ngClass]="item.Group_name ? 'group-badge' : 'no-group'">
+                {{ item.Group_name || '—' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- DOB Column -->
+          <ng-container matColumnDef="DateofBirth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> DOB </th>
+            <td mat-cell *matCellDef="let item"> {{ item.DateofBirth | date:'dd-MMM-yyyy' }} </td>
+          </ng-container>
+
+          <!-- Course & Sem Column -->
+          <ng-container matColumnDef="course_sem">
+            <th mat-header-cell *matHeaderCellDef> Course &amp; Sem </th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.current_course_year_name_e }}, {{ item.current_semester_name_e }}
+            </td>
+          </ng-container>
+
+          <!-- College Name Column -->
+          <ng-container matColumnDef="College_Full_Name_E">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> College Name </th>
+            <td mat-cell *matCellDef="let item" class="col-college" [title]="item.College_Full_Name_E">
+              {{ item.College_Full_Name_E }}
+            </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Action </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center;">
+              <button 
+                type="button" 
+                class="btn-delete" 
+                (click)="deleteRegistration(item.Registration_id)">
+                Delete
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell empty-cell" [attr.colspan]="displayedColumns.length">
+              Record not found !
+            </td>
+          </tr>
+        </table>
+
+        <mat-paginator 
+          [pageSizeOptions]="[5, 10, 20]" 
+          [pageSize]="10" 
+          showFirstLastButtons 
+          aria-label="Pagination">
+        </mat-paginator>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 4. Footer -->
+  <!-- <footer class="portal-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <p><strong>Sports Council &amp; Directorate of Student Welfare</strong> — University Administrative Wing</p>
+        <span class="copyright">© 2026 Sports Management &amp; Verification Portal. All Rights Reserved.</span>
+      </div>
+      <div class="footer-right">
+        <span>Helpdesk: support-sports@university.ac.in | Ext: 4421</span>
+      </div>
+    </div>
+  </footer> -->
+
+</div>

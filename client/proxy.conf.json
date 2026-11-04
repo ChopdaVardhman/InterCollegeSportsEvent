@@ -1,0 +1,7 @@
+{
+  "/DSSNew": {
+    "target": "https://igkv.ac.in",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

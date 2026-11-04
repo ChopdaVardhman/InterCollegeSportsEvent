@@ -1,0 +1,230 @@
+<div class="welcome-container">
+  <!-- Top Navigation / Brand -->
+  <header class="top-nav">
+    <div class="logo">
+      <span class="logo-icon">🏆</span>
+      <span class="logo-text">SportsMeet <strong>2026</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="badge-live"><span class="dot"></span> Registration Active</span>
+      <div class="badge-year">Inter-College Championship</div>
+    </div>
+  </header>
+
+  <!-- Live Highlight Updates Bar -->
+  <div class="ticker-banner">
+    <div class="ticker-label">⚡ Live Updates</div>
+    <div class="ticker-track">
+      <span class="ticker-item">Registration deadline: Nov 08, 2026</span>
+      <span class="ticker-divider">•</span>
+      <span class="ticker-item">Badminton & Athletics Contingent verification ongoing</span>
+      <span class="ticker-divider">•</span>
+      <span class="ticker-item">Dean & DRS authorization mandatory for all official manifests</span>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- HERO SLIDER SECTION                                      -->
+  <!-- ======================================================== -->
+  <section class="hero-slider-showcase">
+    <!-- Background Slider Track -->
+    <div class="hero-carousel-container">
+      <div 
+        class="hero-carousel-track" 
+        [style.transform]="'translateX(-' + (currentFacilityIndex * 100) + '%)'">
+        
+        <div class="hero-slide" *ngFor="let photo of facilities; let i = index">
+          <img [src]="photo.url" [alt]="photo.title" class="slide-bg-img">
+          <div class="slide-gradient-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Slider Arrows (Top Corner) -->
+      <div class="hero-slider-arrows">
+        <button type="button" class="arrow-btn" (click)="prevFacility()" aria-label="Previous Slide">&#10094;</button>
+        <button type="button" class="arrow-btn" (click)="nextFacility()" aria-label="Next Slide">&#10095;</button>
+      </div>
+
+      <!-- Slider Dots -->
+      <div class="hero-dots">
+        <span 
+          *ngFor="let _ of facilities; let i = index" 
+          class="hero-dot" 
+          [class.active]="i === currentFacilityIndex"
+          (click)="goToFacility(i)">
+        </span>
+      </div>
+    </div>
+
+    <!-- Floating Front Overlay: Hero Text + Dual Auth Cards -->
+    <div class="hero-overlay-content">
+      <div class="hero-text-block">
+        <span class="hero-pill-tag">State University Sports Council</span>
+        <h1 class="hero-heading">
+          Welcome to the <span>Inter-College</span> Sports Championship
+        </h1>
+        <p class="hero-caption">
+          {{ facilities[currentFacilityIndex]?.title }}: {{ facilities[currentFacilityIndex]?.description }}
+        </p>
+      </div>
+
+      <!-- Dual Authority Login Floating Card -->
+      <div class="action-card glass-card">
+        <div class="card-top-row">
+          <span class="role-badge">Official Authorization Portal</span>
+        </div>
+
+        <!-- Role Selector Tabs inside Card -->
+        <div class="portal-select-tabs">
+          <button 
+            type="button" 
+            class="portal-tab" 
+            [class.active]="activeLoginRole === 'dean'" 
+            (click)="activeLoginRole = 'dean'">
+            🏛️ Dean Portal
+          </button>
+          <button 
+            type="button" 
+            class="portal-tab" 
+            [class.active]="activeLoginRole === 'drs'" 
+            (click)="activeLoginRole = 'drs'">
+            🛡️ DRS Portal
+          </button>
+        </div>
+
+        <div class="card-icon-wrapper">
+          <span class="card-icon">{{ activeLoginRole === 'dean' ? '🏛️' : '🛡️' }}</span>
+        </div>
+
+        <h3 class="card-title">{{ activeLoginRole === 'dean' ? 'Dean Login' : 'DRS Login' }}</h3>
+        <p class="card-desc">
+          {{ activeLoginRole === 'dean' ? 'Only authorized Deans can endorse participating athlete contingents.' : 'Directorate of Revenue & Sports secure administrative sign-in.' }}
+        </p>
+
+        <ul class="card-perks">
+          <li>
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            {{ activeLoginRole === 'dean' ? 'Institutional Verification' : 'Centralized Management' }}
+          </li>
+          <li>
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            {{ activeLoginRole === 'dean' ? 'Team Contingent Submission' : 'System Access & Oversight' }}
+          </li>
+        </ul>
+
+        <button type="button" class="btn btn-primary" (click)="openLoginSlider(activeLoginRole)">
+          <span>Proceed to {{ activeLoginRole === 'dean' ? 'Dean' : 'DRS' }} Login</span>
+          <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SPORTS TOURNAMENTS CAROUSEL                              -->
+  <!-- ======================================================== -->
+  <main class="page-body">
+    <section class="sports-slider-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Disciplines</span>
+          <h2>Featured Events & Tournaments</h2>
+          <p>Official fixtures scheduled for SportsMeet 2026</p>
+        </div>
+        <div class="slider-arrows">
+          <button type="button" class="arrow-btn round" (click)="scrollSports('left')">&#10094;</button>
+          <button type="button" class="arrow-btn round" (click)="scrollSports('right')">&#10095;</button>
+        </div>
+      </div>
+
+      <div class="sports-carousel" #sportsCarousel>
+        <div class="sports-card" *ngFor="let sport of sportsList">
+          <div class="sports-icon-bubble">{{ sport.icon }}</div>
+          <h4>{{ sport.name }}</h4>
+          <span class="sports-category">{{ sport.category }}</span>
+          <div class="teams-pill">
+            <span class="count">{{ sport.teams }}</span> Contingents Registered
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ======================================================== -->
+<!-- LOGIN SLIDER & BACKDROP                                  -->
+<!-- ======================================================== -->
+<div class="slider-backdrop" [class.show]="isLoginOpen" (click)="closeLoginSlider()"></div>
+
+<aside class="login-slidebar" [class.open]="isLoginOpen">
+  <button type="button" class="btn-close" (click)="closeLoginSlider()">&times;</button>
+
+  <div class="slidebar-header">
+    <div class="authority-icon">{{ activeLoginRole === 'dean' ? '🏛️' : '🛡️' }}</div>
+    <h2>{{ activeLoginRole === 'dean' ? 'Dean Portal Login' : 'DRS Portal Login' }}</h2>
+  </div>
+
+  <!-- Slidebar Internal Role Switcher -->
+  <div class="slidebar-role-switch">
+    <button 
+      type="button" 
+      class="switch-tab" 
+      [class.active]="activeLoginRole === 'dean'" 
+      (click)="activeLoginRole = 'dean'">
+      Dean
+    </button>
+    <button 
+      type="button" 
+      class="switch-tab" 
+      [class.active]="activeLoginRole === 'drs'" 
+      (click)="activeLoginRole = 'drs'">
+      DRS
+    </button>
+  </div>
+
+  <form (submit)="onLoginSubmit()" class="slidebar-form">
+    <div class="form-group">
+      <label for="username_field">
+        {{ activeLoginRole === 'dean' ? 'DEAN ID' : 'DRS USER NAME' }}
+      </label>
+      <input 
+        type="text" 
+        id="username_field" 
+        name="username_field" 
+        [(ngModel)]="empl_ID" 
+        [placeholder]="activeLoginRole === 'dean' ? 'Dean MIS Code' : 'Enter DRS Username'" 
+        required>
+    </div>
+
+    <div class="form-group">
+      <div class="label-row">
+        <label for="password">Password</label>
+      </div>
+      <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        [(ngModel)]="password" 
+        placeholder="Enter password"
+        required>
+    </div>
+
+    <div *ngIf="errorMessage" style="color: red; font-size: 14px; margin-bottom: 10px;">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" class="btn-submit">
+      Log In to {{ activeLoginRole === 'dean' ? 'Dean Portal' : 'DRS Portal' }} &rarr;
+    </button>
+  </form>
+
+  <div class="slidebar-footer">
+    <small>Sports Authority Registration System 2026</small>
+  </div>
+</aside>

@@ -1,0 +1,376 @@
+<div class="portal-root">
+  
+  <!-- 1. Top Enterprise Header -->
+  <header class="gov-topbar">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="portal-badge">🏆</div>
+        <div class="title-meta">
+          <h1>Sports Registration Portal</h1>
+          <p>Inter-College Tournament Participant Management &amp; Student Verification System</p>
+        </div>
+      </div>
+      
+      <div class="header-right-actions">
+        <button type="button" class="btn-top-outline" (click)="goToList()">
+          <span class="icon">📋</span> View Registered Students
+        </button>
+        <button type="button" class="btn-top-logout" (click)="logout()">
+          <span>Logout</span>
+          <span class="icon">🚪</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Dean & Authority Official Banner -->
+  <section class="dean-banner-section">
+    <div class="dean-meta-card">
+      <div class="dean-left">
+        <div class="dean-avatar">🎓</div>
+        <div class="dean-info">
+          <!-- Dynamic Post Name -->
+          <span class="designation-tag">{{ postName || 'OFFICE OF THE DEAN' }}</span>
+          <!-- Dynamic Officer / Dean Name -->
+          <h3 class="dean-name">{{ empName || 'Officer In-Charge' }}</h3>
+          <!-- Dynamic College Name -->
+          <p class="university-name">{{ collegeName || 'University Constituent College' }}</p>
+        </div>
+      </div>
+      
+      <div class="dean-stats-strip">
+        <div class="dean-stat-box">
+          <span class="stat-lbl">Academic Year</span>
+          <span class="stat-val">2026 – 2027</span>
+        </div>
+        <div class="dean-divider"></div>
+        <div class="dean-stat-box">
+          <span class="stat-lbl">Portal Status</span>
+          <span class="stat-val status-live"><span class="dot"></span> Active</span>
+        </div>
+        <div class="dean-divider"></div>
+        <!-- <div class="dean-stat-box">
+          <span class="stat-lbl">Verification Mode</span>
+          <span class="stat-val">UE-ID Integrated</span>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Main Registration Form Container -->
+  <main class="main-body-container">
+    <div class="form-sheet">
+      
+      <div class="sheet-header">
+        <div class="sheet-title-box">
+          <span class="section-bullet"></span>
+          <h3>Candidate &amp; Team Event Registration Form</h3>
+        </div>
+        <span class="mandatory-note"><span class="required">*</span> Fields marked are mandatory</span>
+      </div>
+
+      <form [formGroup]="sportsForm" class="enterprise-form">
+
+        <!-- Step 1: Event Type Selection -->
+        <section class="form-step-card">
+          <div class="step-label-row">
+            <span class="step-num">1</span>
+            <label class="step-title">Select Event Category <span class="required">*</span></label>
+          </div>
+
+          <div class="category-grid">
+            <!-- Individual Event -->
+            <label class="category-tile" [class.selected]="sportsForm.get('eventTypeId')?.value === 1">
+              <input type="radio" [value]="1" formControlName="eventTypeId">
+              <div class="tile-radio-indicator"></div>
+              <div class="tile-icon-box individual-icon">🏃</div>
+              <div class="tile-content">
+                <strong>Individual Event</strong>
+                <span>Single participant / athletics discipline</span>
+              </div>
+            </label>
+
+            <!-- Group Event -->
+            <label class="category-tile" [class.selected]="sportsForm.get('eventTypeId')?.value === 2">
+              <input type="radio" [value]="2" formControlName="eventTypeId">
+              <div class="tile-radio-indicator"></div>
+              <div class="tile-icon-box group-icon">👥</div>
+              <div class="tile-content">
+                <strong>Group Event</strong>
+                <span>Team, doubles &amp; multi-player squad sports</span>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <!-- Step 2: Discipline & Group Name Inputs -->
+        <section class="form-step-card">
+          <div class="step-label-row">
+            <span class="step-num">2</span>
+            <label class="step-title" for="sportSelect">Sports &amp; Team Classification <span class="required">*</span></label>
+          </div>
+
+          <div class="fields-dual-row">
+            <!-- Sport Dropdown -->
+            <div class="input-block">
+              <label class="field-label" for="sportSelect">Select Sport / Discipline <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select 
+                  id="sportSelect" 
+                  formControlName="sportId" 
+                  class="custom-select"
+                  (change)="onSportChange($event)">
+                  <option *ngIf="isLoadingSports" value="" disabled selected>
+                    Loading sports list from server...
+                  </option>
+                  <option *ngIf="!isLoadingSports" value="">
+                    -- Choose Tournament Discipline --
+                  </option>
+                  <option *ngFor="let sport of sportsList" [value]="sport.Sport_ID">
+                    {{ sport.Sport_Name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Team Name (Conditional for Group Events) -->
+            <div class="input-block" *ngIf="sportsForm.get('eventTypeId')?.value == 2 && sportsForm.get('sportId')?.value">
+              <label class="field-label">Group / Team Name <span class="required">*</span></label>
+              <div class="input-icon-control">
+                <span class="inner-icon">🛡️</span>
+                <input 
+                  type="text" 
+                  formControlName="group_name" 
+                  class="custom-input" 
+                  placeholder="Enter official team name (e.g. Warriors XI, Agro Tigers)"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 3: Student Verification & Search -->
+        <section class="form-step-card">
+          <div class="step-label-row">
+            <span class="step-num">3</span>
+            <label class="step-title" for="studentSearch">Student Search &amp; Enrollment <span class="required">*</span></label>
+          </div>
+
+          <div class="search-master-wrapper">
+            <div class="search-input-box" (click)="onSearchClick()">
+              <span class="search-icon">🔍</span>
+              <input
+                id="studentSearch"
+                type="text"
+                class="search-input"
+                placeholder="Search by student full name, roll number, or Enrollment/UE ID..."
+                [formControl]="studentSearchControl"
+                [disabled]="isSearchDisabled()"
+                (blur)="closeDropdownWithDelay()"
+                autocomplete="off"
+              />
+              <span *ngIf="isLoadingStudents" class="search-indicator">Loading...</span>
+            </div>
+
+            <!-- Group Event: Add Member Button -->
+            <button 
+              *ngIf="sportsForm.get('eventTypeId')?.value == 2"
+              type="button" 
+              class="btn-action-add" 
+              (click)="addMemberToGroup()" 
+              [disabled]="!selectedStudent || isSearchDisabled()">>
+              <span>➕ Add to Team</span>
+            </button>
+          </div>
+
+          <!-- Autocomplete Dropdown Panel -->
+       <!-- Autocomplete Dropdown Panel -->
+          <div class="dropdown-wrapper">
+            <ul *ngIf="showDropdown && studentResults.length > 0" class="student-result-list">
+              <li *ngFor="let student of studentResults" 
+                  (mousedown)="selectStudent(student)" 
+                  class="student-result-item">
+                
+                <!-- Left Section: Avatar + Content Stack -->
+                <div class="result-left-group">
+                  <div class="student-avatar-initial">
+                    {{ student.Student_name ? student.Student_name.trim().charAt(0).toUpperCase() : 'S' }}
+                  </div>
+
+                  <div class="student-meta-stack">
+                    <!-- Line 1: Student Name -->
+                    <span class="std-name">{{ student.Student_name?.trim() }}</span>
+                    
+                    <!-- Line 2: Academic Badges (Course, Year, Sem) -->
+                    <div class="std-academic-line">
+                      <span class="academic-chip course-chip" *ngIf="student.Degree_Programme_Name_E">
+                        🎓 {{ student.Degree_Programme_Name_E }}
+                      </span>
+                      <span class="academic-chip year-chip" *ngIf="student.current_course_year_name_e || student.current_semester_name_e">
+                        📅 {{ student.current_course_year_name_e }}<span *ngIf="student.current_course_year_name_e && student.current_semester_name_e">, </span>{{ student.current_semester_name_e }}
+                      </span>
+                    </div>
+
+                    <!-- Line 3: College Name -->
+                    <span class="std-college-text">
+                      🏛️ {{ student.College_Full_Name_E || 'College Registered' }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Right Section: UE ID Badge -->
+                <div class="result-right-badge">
+                  <span class="ueid-tag">UE ID: <strong>{{ student.ue_id || 'N/A' }}</strong></span>
+                </div>
+
+              </li>
+            </ul>
+
+            <div *ngIf="showDropdown && !isLoadingStudents && studentResults.length === 0" class="no-results-alert">
+              No verified student found matching this search criteria.
+            </div>
+          </div>
+        </section>
+
+        <!-- Group Event: Roster Table -->
+        <section class="roster-panel" *ngIf="sportsForm.get('eventTypeId')?.value == 2 && selectedMembers.length > 0">
+          <div class="roster-title-bar">
+            <h4>Enrolled Team Members</h4>
+            <span class="roster-counter">{{ selectedMembers.length }} Members Selected</span>
+          </div>
+
+          <div class="table-container-responsive">
+            <table class="corporate-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">#</th>
+                  <th>UE ID</th>
+                  <th>Student Name</th>
+                  <th>Father's Name</th>
+                  <th>Course &amp; Semester</th>
+                  <th style="text-align: center; width: 110px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let member of selectedMembers; let i = index">
+                  <td class="text-muted">{{ i + 1 }}</td>
+                  <td><span class="ue-code-chip">{{ member.ue_id }}</span></td>
+                  <td class="font-bold">{{ member.Student_name }}</td>
+                  <td>{{ member.Father_Name_E || '—' }}</td>
+                  <td>{{ member.current_course_year_name_e }}, {{ member.current_semester_name_e }}</td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn-table-remove" (click)="removeMember(i)" title="Remove Candidate">
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Step 4: Verified Student Record (Individual Event) -->
+        <section class="verified-details-panel" *ngIf="sportsForm.get('eventTypeId')?.value == 1 && selectedStudent">
+          <div class="details-heading-bar">
+            <span class="verified-icon">✓</span>
+            <h4>Verified Student Academic Profile</h4>
+          </div>
+
+          <div class="read-only-grid">
+            <div class="detail-cell">
+              <label>UE ID / Roll No</label>
+              <input type="text" formControlName="ue_id" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Student Full Name</label>
+              <input type="text" formControlName="Student_name" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Father's Name</label>
+              <input type="text" formControlName="Father_Name_E" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Date of Birth</label>
+              <input type="text" formControlName="DateofBirth" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Current Course Year</label>
+              <input type="text" formControlName="current_course_year_name_e" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Current Semester</label>
+              <input type="text" formControlName="current_semester_name_e" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Degree Programme</label>
+              <input type="text" formControlName="Degree_Programme_Name_E" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell">
+              <label>Gender</label>
+              <input type="text" formControlName="Gender_ID" class="locked-field" readonly>
+            </div>
+            <div class="detail-cell span-full">
+              <label>Registered College Institution</label>
+              <input type="text" formControlName="College_Full_Name_E" class="locked-field span-full-input" readonly>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dynamic Player Count Warning Message (Ab yeh red color me dikhega) -->
+<div *ngIf="sportsForm.get('eventTypeId')?.value == 2 && getSelectedSport() as sport" class="mt-2 mb-3">
+  <small style="color: #dc2626; font-weight: bold; font-size: 14px;">
+    Required Minimum Players for <strong>{{ sport.Sport_Name }}</strong>: 
+    <span>{{ sport.Min_player }}</span> | 
+    Added Members: 
+    <span>{{ selectedMembers.length }}</span>
+    
+    <span *ngIf="selectedMembers.length < sport.Min_player" class="ms-2">
+      (Need {{ sport.Min_player - selectedMembers.length }} more player(s) to enable submit)
+    </span>
+  </small>
+</div>
+
+        <!-- Actions Toolbar -->
+        <div class="form-action-strip">
+          <button type="button" class="btn-cancel-reset" (click)="onReset()">
+            Clear / Reset
+          </button>
+          <button 
+    type="button" 
+    class="btn-save-submit" 
+    (click)="onSave()" 
+    [disabled]="!isPlayerCountValid">
+    Submit Registration
+  </button>
+        </div>
+
+      </form>
+
+      <!-- Bottom Form Status Strip -->
+      <div class="form-live-status-bar">
+        <div class="status-summary">
+          <span class="status-pulse-dot"></span>
+          <span class="status-title">Session State:</span>
+          <span class="stat-pill">Type ID: <b>{{ sportsForm.get('eventTypeId')?.value }}</b></span>
+          <span class="stat-pill">Sport: <b>{{ getSelectedSportName() }}</b></span>
+          <span class="stat-pill">Roster Count: <b>{{ sportsForm.get('eventTypeId')?.value == 2 ? selectedMembers.length : (selectedStudent ? 1 : 0) }}</b></span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 4. Professional Institutional Footer -->
+  <!-- <footer class="portal-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <p><strong>Sports Council &amp; Directorate of Student Welfare</strong> — University Administrative Wing</p>
+        <span class="copyright">© 2026 Sports Management &amp; Verification Portal. All Rights Reserved.</span>
+      </div>
+      <div class="footer-right">
+        <span>Helpdesk: support-sports@university.ac.in | Ext: 4421</span>
+      </div>
+    </div>
+  </footer> -->
+
+</div>

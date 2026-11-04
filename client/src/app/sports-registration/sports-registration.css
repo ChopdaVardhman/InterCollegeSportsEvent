@@ -1,0 +1,1088 @@
+/* ==========================================================================
+   1. Base & Root Reset
+   ========================================================================== */
+.portal-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f5f9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  color: #0f172a;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   2. Top Enterprise Navigation Header
+   ========================================================================== */
+.gov-topbar {
+  background: #ffffff;
+  border-bottom: 1.5px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.header-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.portal-badge {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.title-meta h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.title-meta p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.header-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-top-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #1e40af;
+  border: 1.5px solid #bfdbfe;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-top-outline:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.btn-top-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-top-logout:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   3. Dean & Authority Official Banner
+   ========================================================================== */
+.dean-banner-section {
+  max-width: 1380px;
+  width: 100%;
+  margin: 20px auto 0;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.dean-meta-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #2563eb;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.dean-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dean-avatar {
+  width: 44px;
+  height: 44px;
+  background: #eff6ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 1px solid #bfdbfe;
+}
+
+.designation-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2563eb;
+  text-transform: uppercase;
+  display: block;
+}
+
+.dean-name {
+  margin: 3px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.university-name {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.dean-stats-strip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dean-stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.dean-stat-box .stat-lbl {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.dean-stat-box .stat-val {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 2px;
+}
+
+.status-live {
+  color: #15803d !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-live .dot {
+  width: 7px;
+  height: 7px;
+  background: #16a34a;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dean-divider {
+  width: 1px;
+  height: 32px;
+  background: #e2e8f0;
+}
+
+/* ==========================================================================
+   4. Form Sheet & Layout Foundations
+   ========================================================================== */
+.main-body-container {
+  max-width: 1380px;
+  width: 100%;
+  margin: 20px auto 40px;
+  padding: 0 32px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.form-sheet {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.sheet-header {
+  padding: 18px 30px;
+  background: #f8fafc;
+  border-bottom: 1.5px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sheet-title-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-bullet {
+  width: 4px;
+  height: 20px;
+  background: #2563eb;
+  border-radius: 2px;
+}
+
+.sheet-title-box h3 {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mandatory-note {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.enterprise-form {
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Steps Block Structure */
+.form-step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-label-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-num {
+  width: 22px;
+  height: 22px;
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  color: #2563eb;
+  border-radius: 50%;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.required {
+  color: #ef4444;
+}
+
+/* ==========================================================================
+   5. Step 1: Category Tiles
+   ========================================================================== */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.category-tile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.category-tile input[type="radio"] {
+  display: none;
+}
+
+.category-tile:hover {
+  border-color: #93c5fd;
+  background: #f8fafc;
+}
+
+.category-tile.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.tile-radio-indicator {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #94a3b8;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.category-tile.selected .tile-radio-indicator {
+  border-color: #2563eb;
+}
+
+.category-tile.selected .tile-radio-indicator::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2563eb;
+}
+
+.tile-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: #f1f5f9;
+}
+
+.category-tile.selected .tile-icon-box {
+  background: #ffffff;
+}
+
+.tile-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-content strong {
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.tile-content span {
+  font-size: 12.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   6. Step 2: Sports & Team Classification
+   ========================================================================== */
+.fields-dual-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.custom-select,
+.custom-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.custom-select:focus,
+.custom-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.input-icon-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-control .inner-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+}
+
+.input-icon-control input {
+  padding-left: 38px;
+}
+
+/* ==========================================================================
+   7. Step 3: Student Search & Autocomplete
+   ========================================================================== */
+.search-master-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input-box {
+  position: relative;
+  flex: 1;
+}
+
+.search-input-box .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.search-input-box .search-input {
+  width: 100%;
+  height: 44px;
+  padding-left: 42px;
+  padding-right: 80px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.search-input-box .search-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.search-indicator {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.btn-action-add {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  height: 44px;
+  padding: 0 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-action-add:hover:not([disabled]) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.btn-action-add[disabled] {
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Autocomplete Suggestion Panel */
+.dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.student-result-list {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.15);
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+.student-result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s ease;
+}
+
+.student-result-item:hover {
+  background: #f8fafc;
+}
+
+.result-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.student-avatar-initial {
+  width: 32px;
+  height: 32px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.student-credentials {
+  display: flex;
+  flex-direction: column;
+}
+
+.std-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.std-college-text {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.ueid-tag {
+  font-size: 12px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #475569;
+}
+
+.no-results-alert {
+  padding: 12px 18px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   8. Group Roster Table
+   ========================================================================== */
+.roster-panel {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.roster-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.roster-title-bar h4 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.roster-counter {
+  font-size: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.table-container-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.corporate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.corporate-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+
+.corporate-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.ue-code-chip {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.btn-table-remove {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-table-remove:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   9. Step 4: Individual Profile Details (Readonly)
+   ========================================================================== */
+.verified-details-panel {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.details-heading-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.verified-icon {
+  width: 20px;
+  height: 20px;
+  background: #16a34a;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.details-heading-bar h4 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.read-only-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.detail-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-cell label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.locked-field {
+  height: 38px;
+  padding: 0 10px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+}
+
+.span-full {
+  grid-column: 1 / -1;
+}
+
+.span-full-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   10. Action Buttons Toolbar
+   ========================================================================== */
+.form-action-strip {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1.5px solid #e2e8f0;
+}
+
+.btn-cancel-reset {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1.5px solid #cbd5e1;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel-reset:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-save-submit {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-save-submit:hover:not([disabled]) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.btn-save-submit[disabled] {
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   11. Live Session State Ribbon
+   ========================================================================== */
+.form-live-status-bar {
+  background: #0f172a;
+  padding: 14px 30px;
+  border-top: 1px solid #1e293b;
+}
+
+.status-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.status-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.status-title {
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.stat-pill {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 5px;
+  color: #cbd5e1;
+}
+
+.stat-pill b {
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+   12. Institutional Footer
+   ========================================================================== */
+.portal-footer {
+  background: #ffffff;
+  border-top: 1.5px solid #e2e8f0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-left p {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.copyright {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 3px;
+  display: block;
+}
+
+.footer-right span {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Compact Dropdown Item Outer Container */
+.student-result-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 6px 12px !important; /* Height kam karne ke liye padding kam ki gayi */
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s ease;
+}
+
+.student-result-item:hover {
+  background: #f8fafc;
+}
+
+/* Left Section: Avatar + Content Stack */
+.result-left-group {
+  display: flex !important;
+  align-items: center !important; /* Vertically centered */
+  gap: 10px !important;
+  flex: 1;
+}
+
+/* Compact Avatar Circle */
+.student-avatar-initial {
+  width: 30px !important;
+  height: 30px !important;
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  font-weight: 700 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  border: 1px solid #bfdbfe !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+
+/* Compact Vertical Stack */
+.student-meta-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+/* Line 1: Student Name */
+.std-name {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.2 !important;
+}
+
+/* Line 2: Compact Badges Row */
+.std-academic-line {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.academic-chip {
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1.3 !important;
+}
+
+.course-chip {
+  background: #eff6ff !important;
+  color: #1e40af !important;
+  border: 1px solid #dbeafe !important;
+}
+
+.year-chip {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+/* Line 3: College Name */
+.std-college-text {
+  font-size: 11px !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+/* Right UE ID Tag */
+.result-right-badge {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.ueid-tag {
+  font-size: 11px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 3px 8px !important;
+  border-radius: 5px !important;
+  color: #334155 !important;
+  white-space: nowrap !important;
+}
+
+.ueid-tag strong {
+  color: #0f172a;
+}
+
+.search-input:disabled {
+  pointer-events: none; /* Click parent container ko trigger hone dega */
+}
+
+.search-input-box {
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   13. Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 992px) {
+  .read-only-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dean-meta-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-inner, .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .category-grid, .fields-dual-row {
+    grid-template-columns: 1fr;
+  }
+  .read-only-grid {
+    grid-template-columns: 1fr;
+  }
+}
