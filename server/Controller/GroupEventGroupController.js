@@ -1,4 +1,4 @@
-  const sportsModel = require('../Model/GroupEventUpdateModel');
+const sportsModel = require('../Model/GroupEventUpdateModel');
 
 // Group Update Controller
 exports.updateGroup = async (req, res) => {
@@ -27,6 +27,17 @@ exports.removeGroupPlayer = async (req, res) => {
         res.status(200).json(response);
     } catch (err) {
         console.error('Error in removeGroupPlayer controller:', err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+};
+
+// Controller for fetching all registrations (College ID filter ke sath)
+exports.getAllRegistrations = async (req, res) => {
+    try {
+        const collegeId = req.query.collegeId; // <-- Yahan query se collegeId liya gaya hai
+        const data = await sportsModel.getAllRegistrationsData(collegeId); // <-- Model me pass kiya gaya hai
+        res.status(200).json({ success: true, data: data });
+    } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
 };

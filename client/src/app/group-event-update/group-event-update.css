@@ -1,0 +1,360 @@
+/* ========================================== */
+/* CONTAINER & LAYOUT STRUCTURE               */
+/* ========================================== */
+.group-update-container {
+  padding: 25px;
+  background-color: #f8f9fa;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Header Styling */
+.portal-header {
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #0056b3;
+}
+
+.portal-header h2 {
+  margin: 0 0 5px 0;
+  font-size: 22px;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.portal-header p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+/* Main Card */
+.main-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================== */
+/* SELECTION GROUPS & INPUTS                  */
+/* ========================================== */
+.selection-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #fdfdfd;
+  padding: 15px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.selection-group label {
+  font-weight: 600;
+  font-size: 15px;
+  color: #4a5568;
+  min-width: 110px;
+}
+
+.select-wrapper {
+  flex-grow: 1;
+}
+
+.custom-select, .custom-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.custom-select:focus, .custom-input:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+}
+
+/* Dividers & Titles */
+.divider {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 25px 0;
+}
+
+.section-title h3 {
+  font-size: 18px;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.highlight-text {
+  color: #0056b3;
+  font-weight: 600;
+}
+
+/* ========================================== */
+/* ADD STUDENT SECTION & AUTOCOMPLETE DROPDOWN */
+/* ========================================== */
+.add-student-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.add-student-section h4 {
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.add-student-row {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.dropdown-wrapper li:hover {
+  background-color: #f8fafc !important;
+  color: #0284c7;
+}
+
+/* ========================================== */
+/* BUTTONS STYLING                            */
+/* ========================================== */
+.form-actions {
+  text-align: right;
+}
+
+.btn-primary-custom {
+  background-color: #0284c7;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  height: 42px;
+  white-space: nowrap;
+}
+
+.btn-primary-custom:hover {
+  background-color: #0369a1;
+}
+
+.btn-primary-custom:disabled {
+  background-color: #bae6fd;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* ========================================== */
+/* MEMBERS TABLE & BADGES                     */
+/* ========================================== */
+.members-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.members-header h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.badge-warning {
+  background-color: #fef9c3;
+  color: #854d0e;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #fef08a;
+}
+
+.table-container {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.custom-table th {
+  background-color: #1e293b;
+  color: white;
+  padding: 14px 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.custom-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.custom-table tr:last-child td {
+  border-bottom: none;
+}
+
+.custom-table tr:hover {
+  background-color: #f1f5f9;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.reg-id-badge {
+  background-color: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.student-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Footer Styling */
+.portal-footer {
+  text-align: center;
+  padding-top: 15px;
+  color: #64748b;
+  font-size: 13px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: auto;
+}
+
+/* ========================================== */
+/* RESPONSIVE MEDIA QUERIES                   */
+/* ========================================== */
+
+/* Tablets and Medium Screens (Max-width: 992px) */
+@media screen and (max-width: 992px) {
+  .group-update-container {
+    padding: 15px;
+  }
+
+  .main-card {
+    padding: 20px;
+  }
+
+  .selection-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .selection-group label {
+    min-width: auto;
+  }
+}
+
+/* Mobile Phones (Max-width: 768px) */
+@media screen and (max-width: 768px) {
+  .portal-header {
+    padding: 15px;
+  }
+
+  .portal-header h2 {
+    font-size: 18px;
+  }
+
+  .portal-header p {
+    font-size: 13px;
+  }
+
+  .add-student-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .btn-primary-custom {
+    width: 100%;
+  }
+
+  .members-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .custom-table th, 
+  .custom-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Compact Mobile Devices (Max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .group-update-container {
+    padding: 10px;
+  }
+
+  .main-card {
+    padding: 15px;
+  }
+
+  .section-title h3 {
+    font-size: 16px;
+  }
+}

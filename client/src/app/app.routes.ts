@@ -42,7 +42,7 @@ export const routes: Routes = [
     {
     path: 'groupEventUpdate', 
     component: GroupEventUpdate,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 // >>>>>>> 1b81e7a8d7928b285b42061d8f3a36998915e990
   {
