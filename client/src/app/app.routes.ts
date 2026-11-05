@@ -4,6 +4,7 @@ import { SportsRegistration } from './sports-registration/sports-registration';
 import { ListOfParticipentDetailes } from './list-of-participent-detailes/list-of-participent-detailes';
 import { authGuard } from '../app/guards/auth-guard';
 import { DrsStudentList } from './drs-student-list/drs-student-list';
+import { GroupEventUpdate } from './group-event-update/group-event-update';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,11 @@ export const routes: Routes = [
    {
     path: 'drs/registrationList', 
     component: DrsStudentList,
+    // canActivate: [authGuard]
+  },
+    {
+    path: 'groupEventUpdate', 
+    component: GroupEventUpdate,
     // canActivate: [authGuard]
   },
   {

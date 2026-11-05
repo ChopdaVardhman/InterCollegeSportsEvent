@@ -9,6 +9,8 @@ const sportsRegistration = require('./Router/sportsRegistrationRoutes');
 const sportsRegistrationList = require('./Router/sportsRegistrationListRoutes');
 const drsRoutes = require('./Router/drsLoginRoutes');
 const healthRoutes = require('./Router/healthRoutes');
+const groupEventUpdate = require('./Router/GroupEventUpdate');
+
 
 const app = express();
 
@@ -27,8 +29,7 @@ app.use('/api', categoryRoutes);
 app.use('/api' , studentlist);
 app.use('/api',sportsRegistration);
 app.use('/api',sportsRegistrationList);
-
-
+app.use('/api/groupEventUpdate', groupEventUpdate);
 app.use('/api/drs', drsRoutes);
 
 module.exports = app;
