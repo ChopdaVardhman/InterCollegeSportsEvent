@@ -11,6 +11,21 @@
   box-sizing: border-box;
 }
 
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+/* Logo image styling */
+.logo-img {
+  height: 55px;          
+  width: auto;           
+  object-fit: contain;   
+  display: block;
+}
+
 /* ==========================================================================
    2. Top Enterprise Navigation Header
    ========================================================================== */

@@ -433,7 +433,7 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
   // Main PDF Generation Logic Function (Called after logo loading check)
   const generatePDFContent = (logoDataUri?: string) => {
     // --- Header Banner ---
-    doc.setFillColor(15, 23, 42);
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, pageWidth, 62, 'F');
 
     // Add Logo on Left Side if loaded successfully
@@ -444,20 +444,24 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     // 1. University Full Name (Top)
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(226, 232, 240);
+    doc.setTextColor(30, 41, 59);
     doc.text('INDIRA GANDHI KRISHI VISHWAVIDYALAYA, RAIPUR (C.G.)', pageWidth / 2, 17, { align: 'center' });
 
     // 2. Directory Title (Middle)
     doc.setFontSize(13.5);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(0, 0, 0);
     doc.text('INTER-COLLEGE SPORTS REGISTRATION DIRECTORY', pageWidth / 2, 35, { align: 'center' });
 
     // 3. College Name (Bottom)
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(203, 213, 225);
+    doc.setTextColor(71, 85, 105);
     doc.text(collegeName.toUpperCase(), pageWidth / 2, 51, { align: 'center' });
+
+  doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.8);
+    doc.line(0, 62, pageWidth, 62);
 
     // Sub-header Line
     doc.setFontSize(8.5);
@@ -569,14 +573,14 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
         doc.text('_____________________________', 35, sigY - 8);
         doc.text('Prepared By: Administrative Assistant', 35, sigY + 5);
 
-        doc.text('_____________________________', pageWidth - 170, sigY - 8);
-        doc.text('Approved By: Dean / Sports In-Charge', pageWidth - 170, sigY + 5);
+        // doc.text('_____________________________', pageWidth - 170, sigY - 8);
+        // doc.text('Approved By: Dean / Sports In-Charge', pageWidth - 170, sigY + 5);
       }
 
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
       doc.text(
-        `Page ${p} of ${totalPages} | DKS CARS Sports Roster Portal`,
+        `Page ${p} of ${totalPages}`,
         pageWidth / 2,
         pageHeight - 12,
         { align: 'center' }
