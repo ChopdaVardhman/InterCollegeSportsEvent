@@ -43,7 +43,7 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
   ];
 
   dataSource = new MatTableDataSource<SportsRegistrationItem>([]);
-  allRegistrationsList: SportsRegistrationItem[] = []; // Master copy filtered dropdowns ke liye
+  allRegistrationsList: SportsRegistrationItem[] = []; // Master copy
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -92,7 +92,6 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
       const matchesSport = !sport || data.Sport_Name === sport;
       const matchesGender = !gender || (data.Gender && data.Gender.toLowerCase() === gender.toLowerCase());
       
-      // Group check: exact match ignoring whitespace case
       const itemGroup = (data.Group_name || '').trim().toLowerCase();
       const targetGroup = (group || '').trim().toLowerCase();
       const matchesGroup = !targetGroup || itemGroup === targetGroup;
@@ -194,16 +193,10 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
           };
         });
 
-        console.log('=== Filtered Records for Current College ===', list.length);
-        console.table(list);
-
         this.allRegistrationsList = list;
         this.dataSource.data = list;
 
-        // Populate unique categories
         this.categoryOptions = [...new Set(list.map(i => i.Sports_Category).filter(Boolean))];
-        
-        // Sports & Groups dropdown options set karein
         this.updateSportOptions();
         this.updateGroupOptions();
 
@@ -219,7 +212,6 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     });
   }
 
-  // Jab Category dropdown change hoga
   onCategoryChange(): void {
     this.selectedSport = '';
     this.selectedGroup = '';
@@ -228,7 +220,6 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     this.applyFilters();
   }
 
-  // Category ke according Sports options update karna
   updateSportOptions(): void {
     if (this.selectedCategory) {
       const filtered = this.allRegistrationsList
@@ -241,7 +232,6 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     }
   }
 
-  // Unique Group / Team Names populate karna (khali ya hyphen ignore karke)
   updateGroupOptions(): void {
     let dataset = this.allRegistrationsList;
     if (this.selectedCategory) {
@@ -289,7 +279,6 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     this.applyFilters();
   }
 
-  // Stats cards ke dynamic counts
   get totalCount(): number {
     return this.dataSource?.data?.length || 0;
   }
@@ -331,283 +320,290 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
       return;
     }
 
-// <<<<<<< HEAD
-    // const apiUrl = `http://localhost:3510/api/delete-registration/${id}`;
-// =======
     const apiUrl = `${environment.apiUrl}/delete-registration/${id}`;
-// >>>>>>> 75e8b88746288330b164d807e74bfce6938ba8d2
 
     this.http.delete(apiUrl).subscribe({
       next: () => {
         Swal.fire({
-  icon: 'success',
-  title: 'Deleted!',
-  text: 'Record successfully deleted!',
-  timer: 1500,
-  showConfirmButton: false
-});
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'Record successfully deleted!',
+          timer: 1500,
+          showConfirmButton: false
+        });
         this.fetchRegisteredStudents();
       },
       error: (err) => {
         console.error('Delete error:', err);
-       Swal.fire({
-  icon: 'error',
-  title: 'Deletion Failed',
-  text: 'Failed to delete record. Please check server logs.',
-  confirmButtonColor: '#d33'
-});
+        Swal.fire({
+          icon: 'error',
+          title: 'Deletion Failed',
+          text: 'Failed to delete record. Please check server logs.',
+          confirmButtonColor: '#d33'
+        });
       }
     });
   }
 
- exportToPDF(): void {
-  const doc = new jsPDF('landscape', 'pt', 'a4');
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const pageHeight = doc.internal.pageSize.getHeight();
+  exportToPDF(): void {
+    const doc = new jsPDF('landscape', 'pt', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-  const collegeName = localStorage.getItem('college_name') || 'DKS COLLEGE OF AGRICULTURE & RESEARCH STATION, BHATAPARA (DKS CARS)';
-  const currentDate = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  }).toUpperCase();
+    // 1. LocalStorage se Dean ka Name aur Designation read karna
+    const deanName = (localStorage.getItem('emp_name') || '').trim();
+    const deanDesignation = (localStorage.getItem('post_name') || 'Nill').trim();
+    const collegeName = localStorage.getItem('college_name') || 'Nil';
+    
+    const currentDate = new Date().toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).toUpperCase();
 
-  // MatTableDataSource se filtered data uthana
-  const list = this.dataSource.filteredData.length ? this.dataSource.filteredData : this.dataSource.data;
+    // MatTableDataSource data
+    const list = this.dataSource.filteredData.length ? this.dataSource.filteredData : this.dataSource.data;
 
-  // Gender Identifiers
-  const isMale = (g: string | null | undefined) => 
-    (g || '').trim().toLowerCase() === 'male' || (g || '').trim().toUpperCase() === 'M';
-  const isFemale = (g: string | null | undefined) => 
-    (g || '').trim().toLowerCase() === 'female' || (g || '').trim().toUpperCase() === 'F';
+    const isMale = (g: string | null | undefined) => 
+      (g || '').trim().toLowerCase() === 'male' || (g || '').trim().toUpperCase() === 'M';
+    const isFemale = (g: string | null | undefined) => 
+      (g || '').trim().toLowerCase() === 'female' || (g || '').trim().toUpperCase() === 'F';
 
-  // 1. Data Segregation
-  const individualMaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'individual' && isMale(i.Gender));
-  const individualFemaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'individual' && isFemale(i.Gender));
-  const groupMaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'group' && isMale(i.Gender));
-  const groupFemaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'group' && isFemale(i.Gender));
+    // 2. Data Segregation
+    const individualMaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'individual' && isMale(i.Gender));
+    const individualFemaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'individual' && isFemale(i.Gender));
+    const groupMaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'group' && isMale(i.Gender));
+    const groupFemaleRaw = list.filter(i => (i.Sports_Category || '').toLowerCase() === 'group' && isFemale(i.Gender));
 
-  // 2. Aggregator Function for Individual Sports
-  const aggregateIndividualSports = (rawList: any[]) => {
-    const map: { [key: string]: { sportName: string; category: string; college: string; students: any[] } } = {};
-    rawList.forEach(item => {
-      const sport = (item.Sport_Name || 'Unspecified').trim();
-      if (!map[sport]) {
-        map[sport] = {
-          sportName: sport,
-          category: 'Individual',
-          college: item.College_Full_Name_E,
-          students: []
-        };
-      }
-      map[sport].students.push(item);
-    });
-    return Object.values(map);
-  };
-
-  // 3. Aggregator Function for Group Sports
-  const aggregateGroupTeams = (rawList: any[]) => {
-    const map: { [key: string]: { sportName: string; groupName: string; college: string; students: any[] } } = {};
-    rawList.forEach(item => {
-      const sport = (item.Sport_Name || 'Unspecified').trim();
-      const group = (item.Group_name || 'Team Roster').trim();
-      const key = `${sport}___${group}`;
-      if (!map[key]) {
-        map[key] = {
-          sportName: sport,
-          groupName: group,
-          college: item.College_Full_Name_E,
-          students: []
-        };
-      }
-      map[key].students.push(item);
-    });
-    return Object.values(map);
-  };
-
-  const indMaleAggregated = aggregateIndividualSports(individualMaleRaw);
-  const indFemaleAggregated = aggregateIndividualSports(individualFemaleRaw);
-  const grpMaleAggregated = aggregateGroupTeams(groupMaleRaw);
-  const grpFemaleAggregated = aggregateGroupTeams(groupFemaleRaw);
-
-  // Main PDF Generation Logic Function (Called after logo loading check)
-  const generatePDFContent = (logoDataUri?: string) => {
-    // --- Header Banner ---
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageWidth, 62, 'F');
-
-    // Add Logo on Left Side if loaded successfully
-    if (logoDataUri) {
-      doc.addImage(logoDataUri, 'PNG', 35, 11, 40, 40);
-    }
-
-    // 1. University Full Name (Top)
-    doc.setFontSize(9.5);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(30, 41, 59);
-    doc.text('INDIRA GANDHI KRISHI VISHWAVIDYALAYA, RAIPUR (C.G.)', pageWidth / 2, 17, { align: 'center' });
-
-    // 2. Directory Title (Middle)
-    doc.setFontSize(13.5);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(0, 0, 0);
-    doc.text('INTER-COLLEGE SPORTS REGISTRATION DIRECTORY', pageWidth / 2, 35, { align: 'center' });
-
-    // 3. College Name (Bottom)
-    doc.setFontSize(9.5);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(71, 85, 105);
-    doc.text(collegeName.toUpperCase(), pageWidth / 2, 51, { align: 'center' });
-
-  doc.setDrawColor(226, 232, 240);
-    doc.setLineWidth(0.8);
-    doc.line(0, 62, pageWidth, 62);
-
-    // Sub-header Line
-    doc.setFontSize(8.5);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(15, 23, 42);
-    doc.text('ACADEMIC SESSION: 2026 – 2027', 35, 74);
-    doc.text(`REPORT GENERATED ON: ${currentDate}`, pageWidth - 35, 74, { align: 'right' });
-
-    doc.setDrawColor(203, 213, 225);
-    doc.setLineWidth(0.75);
-    doc.line(35, 80, pageWidth - 35, 80);
-
-    let currentY = 96;
-
-    // Helper method: Draw aggregated table
-    const renderAggregatedSection = (
-      title: string,
-      data: any[],
-      isGroup: boolean,
-      headerColor: [number, number, number]
-    ) => {
-      if (currentY > pageHeight - 110) {
-        doc.addPage();
-        currentY = 45;
-      }
-
-      doc.setFontSize(10.5);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(headerColor[0], headerColor[1], headerColor[2]);
-      doc.text(title, 35, currentY);
-
-      const rows = data.map((item, idx) => {
-        const candidatesList = item.students.map((s: any, sIdx: number) => 
-          `${sIdx + 1}. ${s.Student_name || '-'} (${s.ue_id || 'N/A'})`
-        ).join('\n');
-
-        const countLabel = isGroup 
-          ? `${item.students.length} ${item.students.length === 1 ? 'Player' : 'Players'}`
-          : `${item.students.length} ${item.students.length === 1 ? 'Candidate' : 'Candidates'}`;
-
-        const categoryOrTeam = isGroup 
-          ? (item.groupName !== 'Team Roster' ? `Team: ${item.groupName}` : 'Group')
-          : 'Individual';
-
-        return [
-          idx + 1,
-          item.sportName,
-          categoryOrTeam,
-          countLabel,
-          candidatesList,
-          item.college
-        ];
+    // Aggregators
+    const aggregateIndividualSports = (rawList: any[]) => {
+      const map: { [key: string]: { sportName: string; category: string; college: string; students: any[] } } = {};
+      rawList.forEach(item => {
+        const sport = (item.Sport_Name || 'Unspecified').trim();
+        if (!map[sport]) {
+          map[sport] = {
+            sportName: sport,
+            category: 'Individual',
+            college: item.College_Full_Name_E,
+            students: []
+          };
+        }
+        map[sport].students.push(item);
       });
-
-      autoTable(doc, {
-        startY: currentY + 6,
-        head: [['S.No.', 'Sport Name', isGroup ? 'Category / Team' : 'Category', 'Total Candidates', 'Enrolled Candidates & UE ID', 'College Name']],
-        body: rows.length ? rows : [['-', '-', '-', '-', 'No Records Registered', '-']],
-        theme: 'grid',
-        styles: {
-          fontSize: 8,
-          cellPadding: 5,
-          valign: 'middle',
-          overflow: 'linebreak'
-        },
-        headStyles: {
-          fillColor: headerColor,
-          textColor: [255, 255, 255],
-          fontStyle: 'bold',
-          halign: 'center'
-        },
-        columnStyles: {
-          0: { cellWidth: 35, halign: 'center' },
-          1: { cellWidth: 100, fontStyle: 'bold' },
-          2: { cellWidth: 110, halign: 'center' },
-          3: { cellWidth: 95, halign: 'center', fontStyle: 'bold' },
-          4: { cellWidth: 260 },
-          5: { cellWidth: 'auto' }
-        },
-        margin: { left: 35, right: 35 }
-      });
-
-      currentY = (doc as any).lastAutoTable.finalY + 24;
+      return Object.values(map);
     };
 
-    // Section 1: Individual Boys (Blue)
-    renderAggregatedSection('1. INDIVIDUAL SPORTS DISCIPLINE - MALE (BOYS)', indMaleAggregated, false, [10, 61, 145]);
+    const aggregateGroupTeams = (rawList: any[]) => {
+      const map: { [key: string]: { sportName: string; groupName: string; college: string; students: any[] } } = {};
+      rawList.forEach(item => {
+        const sport = (item.Sport_Name || 'Unspecified').trim();
+        const group = (item.Group_name || 'Team Roster').trim();
+        const key = `${sport}___${group}`;
+        if (!map[key]) {
+          map[key] = {
+            sportName: sport,
+            groupName: group,
+            college: item.College_Full_Name_E,
+            students: []
+          };
+        }
+        map[key].students.push(item);
+      });
+      return Object.values(map);
+    };
 
-    // Section 2: Individual Girls (Pink/Maroon)
-    renderAggregatedSection('2. INDIVIDUAL SPORTS DISCIPLINE - FEMALE (GIRLS)', indFemaleAggregated, false, [139, 21, 56]);
+    const indMaleAggregated = aggregateIndividualSports(individualMaleRaw);
+    const indFemaleAggregated = aggregateIndividualSports(individualFemaleRaw);
+    const grpMaleAggregated = aggregateGroupTeams(groupMaleRaw);
+    const grpFemaleAggregated = aggregateGroupTeams(groupFemaleRaw);
 
-    // Section 3: Group Boys (Dark Green)
-    renderAggregatedSection('3. GROUP & TEAM SQUAD DISCIPLINE - MALE (BOYS TEAMS)', grpMaleAggregated, true, [10, 84, 40]);
+    const generatePDFContent = (logoDataUri?: string) => {
+      // Header Banner
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, pageWidth, 62, 'F');
 
-    // Section 4: Group Girls (Royal Purple)
-    renderAggregatedSection('4. GROUP & TEAM SQUAD DISCIPLINE - FEMALE (GIRLS TEAMS)', grpFemaleAggregated, true, [74, 21, 110]);
-
-    // Signatures & Pagination on Last Page
-    const totalPages = doc.getNumberOfPages();
-    for (let p = 1; p <= totalPages; p++) {
-      doc.setPage(p);
-
-      if (p === totalPages) {
-        const sigY = pageHeight - 40;
-        doc.setFontSize(8.5);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(30, 41, 59);
-
-        doc.text('_____________________________', 35, sigY - 8);
-        doc.text('Prepared By: Administrative Assistant', 35, sigY + 5);
-
-        // doc.text('_____________________________', pageWidth - 170, sigY - 8);
-        // doc.text('Approved By: Dean / Sports In-Charge', pageWidth - 170, sigY + 5);
+      if (logoDataUri) {
+        doc.addImage(logoDataUri, 'PNG', 35, 11, 40, 40);
       }
 
-      doc.setFontSize(8);
-      doc.setTextColor(148, 163, 184);
-      doc.text(
-        `Page ${p} of ${totalPages}`,
-        pageWidth / 2,
-        pageHeight - 12,
-        { align: 'center' }
-      );
-    }
+      // University Name
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(30, 41, 59);
+      doc.text('INDIRA GANDHI KRISHI VISHWAVIDYALAYA, RAIPUR (C.G.)', pageWidth / 2, 17, { align: 'center' });
 
-    doc.save(`Sports_Registration_Directory_${Date.now()}.pdf`);
-  };
+      // Directory Title
+      doc.setFontSize(13.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text('INTER-COLLEGE SPORTS REGISTRATION DIRECTORY', pageWidth / 2, 35, { align: 'center' });
 
-  // Load Logo Image and trigger PDF generation
-  const img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.src = 'IGKVlogo.webp'; // Ensure this path matches your assets folder structure
+      // College Name
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(71, 85, 105);
+      doc.text(collegeName.toUpperCase(), pageWidth / 2, 51, { align: 'center' });
 
-  img.onload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx?.drawImage(img, 0, 0);
-    const dataUri = canvas.toDataURL('image/png');
-    generatePDFContent(dataUri);
-  };
+      doc.setDrawColor(226, 232, 240);
+      doc.setLineWidth(0.8);
+      doc.line(0, 62, pageWidth, 62);
 
-  img.onerror = () => {
-    // Fallback if logo fails to load: generate PDF without logo
-    generatePDFContent();
-  };
-}
+      // Sub-header Line
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(15, 23, 42);
+      doc.text('ACADEMIC SESSION: 2026 – 2027', 35, 74);
+      doc.text(`REPORT GENERATED ON: ${currentDate}`, pageWidth - 35, 74, { align: 'right' });
+
+      doc.setDrawColor(203, 213, 225);
+      doc.setLineWidth(0.75);
+      doc.line(35, 80, pageWidth - 35, 80);
+
+      let currentY = 96;
+
+      const renderAggregatedSection = (
+        title: string,
+        data: any[],
+        isGroup: boolean,
+        headerColor: [number, number, number]
+      ) => {
+        if (currentY > pageHeight - 110) {
+          doc.addPage();
+          currentY = 45;
+        }
+
+        doc.setFontSize(10.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(headerColor[0], headerColor[1], headerColor[2]);
+        doc.text(title, 35, currentY);
+
+        const rows = data.map((item, idx) => {
+          const candidatesList = item.students.map((s: any, sIdx: number) => 
+            `${sIdx + 1}. ${s.Student_name || '-'} (${s.ue_id || 'N/A'})`
+          ).join('\n');
+
+          const countLabel = isGroup 
+            ? `${item.students.length} ${item.students.length === 1 ? 'Player' : 'Players'}`
+            : `${item.students.length} ${item.students.length === 1 ? 'Candidate' : 'Candidates'}`;
+
+          const categoryOrTeam = isGroup 
+            ? (item.groupName !== 'Team Roster' ? `Team: ${item.groupName}` : 'Group')
+            : 'Individual';
+
+          return [
+            idx + 1,
+            item.sportName,
+            categoryOrTeam,
+            countLabel,
+            candidatesList,
+            item.college
+          ];
+        });
+
+        autoTable(doc, {
+          startY: currentY + 6,
+          head: [['S.No.', 'Sport Name', isGroup ? 'Category / Team' : 'Category', 'Total Candidates', 'Enrolled Candidates & UE ID', 'College Name']],
+          body: rows.length ? rows : [['-', '-', '-', '-', 'No Records Registered', '-']],
+          theme: 'grid',
+          styles: {
+            fontSize: 8,
+            cellPadding: 5,
+            valign: 'middle',
+            overflow: 'linebreak'
+          },
+          headStyles: {
+            fillColor: headerColor,
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            halign: 'center'
+          },
+          columnStyles: {
+            0: { cellWidth: 35, halign: 'center' },
+            1: { cellWidth: 100, fontStyle: 'bold' },
+            2: { cellWidth: 110, halign: 'center' },
+            3: { cellWidth: 95, halign: 'center', fontStyle: 'bold' },
+            4: { cellWidth: 260 },
+            5: { cellWidth: 'auto' }
+          },
+          margin: { left: 35, right: 35 }
+        });
+
+        currentY = (doc as any).lastAutoTable.finalY + 24;
+      };
+
+      // 4 Sections
+      renderAggregatedSection('1. INDIVIDUAL SPORTS DISCIPLINE - MALE (BOYS)', indMaleAggregated, false, [10, 61, 145]);
+      renderAggregatedSection('2. INDIVIDUAL SPORTS DISCIPLINE - FEMALE (GIRLS)', indFemaleAggregated, false, [139, 21, 56]);
+      renderAggregatedSection('3. GROUP & TEAM SQUAD DISCIPLINE - MALE (BOYS TEAMS)', grpMaleAggregated, true, [10, 84, 40]);
+      renderAggregatedSection('4. GROUP & TEAM SQUAD DISCIPLINE - FEMALE (GIRLS TEAMS)', grpFemaleAggregated, true, [74, 21, 110]);
+
+      // Signatures & Page Count on Last Page
+      const totalPages = doc.getNumberOfPages();
+      for (let p = 1; p <= totalPages; p++) {
+        doc.setPage(p);
+
+        if (p === totalPages) {
+          const sigY = pageHeight - 48;
+
+          // Left Side: Dean Signature Block using LocalStorage
+          doc.setFontSize(8.5);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(30, 41, 59);
+
+          doc.text('________________________________________', 35, sigY - 14);
+          
+          doc.setFont('helvetica', 'bold');
+          doc.text(`Prepared & Verified By: ${deanName || 'Dean / Authorized Authority'}`, 35, sigY);
+          
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(71, 85, 105);
+          doc.text(`${deanDesignation}`, 35, sigY + 11);
+          doc.text(`${collegeName}`, 35, sigY + 21);
+
+          // Right Side: DSW Authority Block
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(30, 41, 59);
+          doc.text('________________________________________', pageWidth - 215, sigY - 14);
+          
+          doc.setFont('helvetica', 'bold');
+          doc.text('Accepted By: Sports Council (DSW)', pageWidth - 215, sigY);
+          
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(71, 85, 105);
+          doc.text('Indira Gandhi Krishi Vishwavidyalaya, Raipur', pageWidth - 215, sigY + 11);
+        }
+
+        // Center Footer Page Number
+        doc.setFontSize(8);
+        doc.setTextColor(148, 163, 184);
+        doc.text(
+          `Page ${p} of ${totalPages}`,
+          pageWidth / 2,
+          pageHeight - 12,
+          { align: 'center' }
+        );
+      }
+
+      doc.save(`Sports_Registration_Directory_${Date.now()}.pdf`);
+    };
+
+    // Load Logo Image
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = 'IGKVlogo.webp';
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(img, 0, 0);
+      const dataUri = canvas.toDataURL('image/png');
+      generatePDFContent(dataUri);
+    };
+
+    img.onerror = () => {
+      generatePDFContent();
+    };
+  }
 }

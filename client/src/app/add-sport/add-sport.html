@@ -1,0 +1,109 @@
+<div class="add-sport-root">
+  <!-- Top Official Header -->
+  <header class="top-nav">
+    <div class="logo">
+      <img src="/igkv logo.jpeg" alt="IGKV Logo" class="logo-img" />
+      <span class="logo-text">Indira Gandhi Krishi Vishwavidyalaya (IGKV)</span>
+    </div>
+    <div class="nav-right">
+      <span class="badge-live"><span class="dot"></span> Registration Active</span>
+      <div class="badge-year">Inter-College Championship</div>
+    </div>
+  </header>
+
+  <!-- Page Content Shell -->
+  <main class="content-wrapper">
+    <!-- Wide Corporate Sheet (Horizontal Form) -->
+    <div class="theme-wide-card">
+      
+      <!-- Card Header Banner -->
+      <div class="card-top-banner">
+        <div class="banner-left">
+          <div class="badge-icon-box">🏆</div>
+          <div class="banner-info">
+            <h2>Add New Sport Discipline</h2>
+            <p>Define official sports category, event title, and contingent player quota for championship roster.</p>
+          </div>
+        </div>
+        <!-- <span class="pill-badge">Official Sports Management</span> -->
+      </div>
+
+      <!-- Horizontal Unified Form -->
+      <form [formGroup]="sportForm" (ngSubmit)="onSubmit()" class="horizontal-sport-form">
+        
+        <div class="form-grid-row">
+          <!-- 1. Category ID Dropdown -->
+          <div class="form-group flex-2">
+            <label for="Category_ID">Sports Category <span class="required">*</span></label>
+            <div class="input-container">
+              <select 
+                id="Category_ID" 
+                formControlName="Category_ID" 
+                class="theme-select"
+                [class.error-border]="sportForm.get('Category_ID')?.touched && sportForm.get('Category_ID')?.invalid"
+              >
+                <option value="" disabled selected>-- Select Category ID --</option>
+                <option value="1">1 - Individual Sport</option>
+                <option value="2">2 - Group / Team Sport</option>
+              </select>
+            </div>
+            <span class="validation-msg" *ngIf="sportForm.get('Category_ID')?.touched && sportForm.get('Category_ID')?.invalid">
+              Category select karein
+            </span>
+          </div>
+
+          <!-- 2. Sport Name Input -->
+          <div class="form-group flex-3">
+            <label for="Sport_Name">Sport Name <span class="required">*</span></label>
+            <div class="input-container">
+              <input 
+                type="text" 
+                id="Sport_Name" 
+                formControlName="Sport_Name" 
+                placeholder="e.g. 100 mtr., High Jump, Badminton, Kabaddi" 
+                class="theme-input"
+                [class.error-border]="sportForm.get('Sport_Name')?.touched && sportForm.get('Sport_Name')?.invalid"
+              />
+            </div>
+            <span class="validation-msg" *ngIf="sportForm.get('Sport_Name')?.touched && sportForm.get('Sport_Name')?.invalid">
+              Enter sport name
+            </span>
+          </div>
+
+          <!-- 3. Min Player Input -->
+          <div class="form-group flex-2">
+            <label for="Min_player">Min Squad Size <span class="required">*</span></label>
+            <div class="input-container">
+              <input 
+                type="number" 
+                id="Min_player" 
+                formControlName="Min_player" 
+                min="1"
+                placeholder="e.g. 1, 5, 11" 
+                class="theme-input"
+                [class.error-border]="sportForm.get('Min_player')?.touched && sportForm.get('Min_player')?.invalid"
+              />
+            </div>
+            <span class="validation-msg" *ngIf="sportForm.get('Min_player')?.touched && sportForm.get('Min_player')?.invalid">
+              Min players required
+            </span>
+          </div>
+
+          <!-- Action Button in Same Row -->
+          <div class="form-group button-cell">
+            <button type="submit" class="btn-proceed" [disabled]="isSubmitting || sportForm.invalid">
+              <span>{{ isSubmitting ? 'Saving...' : 'Save & Register' }}</span>
+              <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hint bar at bottom of inputs -->
+        <!--  -->
+
+      </form>
+    </div>
+  </main>
+</div>
