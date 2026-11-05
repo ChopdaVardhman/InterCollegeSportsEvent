@@ -60,6 +60,8 @@ export class SportsService {
 
   private apiUrllist = `${environment.apiUrl}/sports-registration`;
 
+  private baseUrl = 'http://localhost:3510/api/sports';
+
   constructor(private http: HttpClient) {}
 
   // 1. Games fetch karne ke liye (Step 1)
@@ -75,6 +77,25 @@ getRegistrations(): Observable<any> {
     return this.http.get<any>(this.apiUrllist);
   }
 
+  // 1. Saari registrations fetch karne ka method
+  getAllRegistrations(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/all-registrations`);
+  }
+
+  // 2. Sport master se min player fetch karne ka method
+  getSportMaster(sportId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/master/${sportId}`);
+  }
+
+  // 3. Group update karne ka method
+  updateGroup(groupName: string, data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update-group/${groupName}`, data);
+  }
+
+  // 4. Player remove karne ka method
+  removePlayer(registrationId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/remove-group-player/${registrationId}`);
+  }
 
 searchStudents(query: string, collegeId: string | number): Observable<StudentOption[]> {
     const trimmedQuery = (query || '').trim().toLowerCase();

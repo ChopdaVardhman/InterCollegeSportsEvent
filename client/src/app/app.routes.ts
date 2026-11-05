@@ -4,7 +4,11 @@ import { SportsRegistration } from './sports-registration/sports-registration';
 import { ListOfParticipentDetailes } from './list-of-participent-detailes/list-of-participent-detailes';
 import { authGuard, drsAuthGuard } from '../app/guards/auth-guard';
 import { DrsStudentList } from './drs-student-list/drs-student-list';
+// <<<<<<< HEAD
 import { AddSportComponent } from './add-sport/add-sport';
+// =======
+import { GroupEventUpdate } from './group-event-update/group-event-update';
+// >>>>>>> 1b81e7a8d7928b285b42061d8f3a36998915e990
 
 export const routes: Routes = [
   {
@@ -26,6 +30,7 @@ export const routes: Routes = [
     component: DrsStudentList,
     canActivate:[drsAuthGuard]
   },
+// <<<<<<< HEAD
 
   {
     path:"add-sport",
@@ -33,6 +38,13 @@ export const routes: Routes = [
     canActivate:[drsAuthGuard]
   },
   
+// =======
+    {
+    path: 'groupEventUpdate', 
+    component: GroupEventUpdate,
+    // canActivate: [authGuard]
+  },
+// >>>>>>> 1b81e7a8d7928b285b42061d8f3a36998915e990
   {
     path: '**',
     redirectTo: '' 
