@@ -502,7 +502,7 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
 
         autoTable(doc, {
           startY: currentY + 6,
-          head: [['S.No.', 'Sport Name', isGroup ? 'Category / Team' : 'Category', 'Total Candidates', 'Enrolled Candidates & UE ID', 'College Name']],
+          head: [['S.No.', 'Events Name', isGroup ? 'Category / Team' : 'Category', 'Total Candidates', 'Enrolled Candidates & UE ID', 'College Name']],
           body: rows.length ? rows : [['-', '-', '-', '-', 'No Records Registered', '-']],
           theme: 'grid',
           styles: {
@@ -532,8 +532,8 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
       };
 
       // 4 Sections
-      renderAggregatedSection('1. INDIVIDUAL SPORTS DISCIPLINE - MALE (BOYS)', indMaleAggregated, false, [10, 61, 145]);
-      renderAggregatedSection('2. INDIVIDUAL SPORTS DISCIPLINE - FEMALE (GIRLS)', indFemaleAggregated, false, [139, 21, 56]);
+      renderAggregatedSection('1. INDIVIDUAL EVENTS DISCIPLINE - MALE (BOYS)', indMaleAggregated, false, [10, 61, 145]);
+      renderAggregatedSection('2. INDIVIDUAL EVENTS DISCIPLINE - FEMALE (GIRLS)', indFemaleAggregated, false, [139, 21, 56]);
       renderAggregatedSection('3. GROUP & TEAM SQUAD DISCIPLINE - MALE (BOYS TEAMS)', grpMaleAggregated, true, [10, 84, 40]);
       renderAggregatedSection('4. GROUP & TEAM SQUAD DISCIPLINE - FEMALE (GIRLS TEAMS)', grpFemaleAggregated, true, [74, 21, 110]);
 
@@ -590,7 +590,7 @@ export class ListOfParticipentDetailes implements OnInit, AfterViewInit {
     // Load Logo Image
     const img = new Image();
     img.crossOrigin = 'Anonymous';
-    img.src = 'IGKVlogo.webp';
+    img.src = 'igkv logo.jpeg';
 
     img.onload = () => {
       const canvas = document.createElement('canvas');

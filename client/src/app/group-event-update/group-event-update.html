@@ -1,78 +1,115 @@
-<div class="container mt-4">
-  <div class="card shadow-sm p-4">
-    <h3 class="mb-3">Manage Group Events</h3>
+<div class="group-update-container">
+  <!-- Professional Header Section -->
+  <div class="portal-header">
+    <h2>Manage Group Events</h2>
+    <p>View, update, and manage student sports group registrations seamlessly.</p>
+  </div>
+
+  <!-- Main Card -->
+  <div class="main-card">
     
-    <!-- Step 1: Group Selection Dropdown -->
-    <div class="mb-4 row">
-      <label class="col-sm-2 col-form-label fw-bold">Select Group:</label>
-      <div class="col-sm-6">
-        <select class="form-select" [(ngModel)]="selectedGroupName" (change)="onGroupSelect(selectedGroupName)">
+    <!-- Step 1: Sport Name Selection Dropdown -->
+    <div class="selection-group mb-3">
+      <label for="sportSelect">Select Sport:</label>
+      <div class="select-wrapper">
+        <select id="sportSelect" class="custom-select" [(ngModel)]="selectedSportName" (change)="onSportSelect(selectedSportName)">
+          <option value="">-- Choose Sport Name --</option>
+          <option *ngFor="let sName of uniqueSports" [value]="sName">{{ sName }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 2: Group Name Selection Dropdown -->
+    <div class="selection-group" *ngIf="selectedSportName">
+      <label for="groupSelect">Select Group:</label>
+      <div class="select-wrapper">
+        <select id="groupSelect" class="custom-select" [(ngModel)]="selectedGroupName" (change)="onGroupSelect(selectedGroupName)">
           <option value="">-- Choose Group Name --</option>
-          <option *ngFor="let gName of uniqueGroups" [value]="gName">{{ gName }}</option>
+          <option *ngFor="let gName of filteredGroups" [value]="gName">{{ gName }}</option>
         </select>
       </div>
     </div>
 
     <!-- Jab tak group select na ho, tab tak ye section hide rahega -->
     <div *ngIf="selectedGroupName">
-      <hr>
-      <h4 class="text-primary mb-3">Update Details for: {{ selectedGroupName }}</h4>
+      <hr class="divider">
+      
+      <div class="section-title">
+        <h3>Group Roster for Sport: <span class="highlight-text">{{ selectedSportName }}</span> | Group: <span class="highlight-text">{{ selectedGroupName }}</span></h3>
+      </div>
 
-      <!-- Group Details Update Form -->
-      <form (ngSubmit)="updateGroupDetails()" #groupForm="ngForm" class="row g-3 mb-4">
-        <div class="col-md-3">
-          <label class="form-label">Sport ID</label>
-          <input type="number" class="form-control" [(ngModel)]="groupData.Sport_ID" name="Sport_ID" required readonly>
+      <!-- Add Student to Group Section (Live Search Autocomplete) -->
+      <div class="add-student-section" style="position: relative;">
+        <h4>Add Student to Group</h4>
+        <div class="add-student-row">
+          <div class="form-group" style="flex-grow: 1; position: relative;">
+            <label>Search Student (Name or UE ID)</label>
+            <input 
+              type="text" 
+              class="custom-input" 
+              [formControl]="studentSearchControl"
+              placeholder="Search by student full name, roll number, or UE ID..."
+              (blur)="closeDropdownWithDelay()"
+              autocomplete="off"
+            />
+            <span *ngIf="isLoadingStudents" style="position: absolute; right: 12px; top: 35px; font-size: 12px; color: #64748b;">Loading...</span>
+
+            <!-- Autocomplete Dropdown Panel -->
+            <div class="dropdown-wrapper" *ngIf="showDropdown && studentResults.length > 0" style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-height: 250px; overflow-y: auto;">
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li *ngFor="let student of studentResults" 
+                    (mousedown)="selectStudent(student)" 
+                    style="padding: 10px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <strong style="color: #0f172a; font-size: 14px;">{{ student.Student_name?.trim() }}</strong>
+                    <div style="font-size: 12px; color: #64748b;">
+                      🎓 {{ student.Degree_Programme_Name_E }} | 📅 {{ student.current_course_year_name_e }}, {{ student.current_semester_name_e }}
+                    </div>
+                  </div>
+                  <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #475569;">
+                    UE ID: {{ student.ue_id }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-primary-custom" (click)="addStudentToGroup()" [disabled]="!selectedStudent">
+              + Add to Group
+            </button>
+          </div>
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <label class="form-label">Category ID</label>
-          <input type="number" class="form-control" [(ngModel)]="groupData.Category_ID" name="Category_ID" required>
-        </div>
-
-        <div class="col-md-3">
-          <label class="form-label">College ID</label>
-          <input type="number" class="form-control" [(ngModel)]="groupData.College_Id" name="College_Id" required>
-        </div>
-
-        <div class="col-md-3">
-          <label class="form-label">Gender</label>
-          <select class="form-control" [(ngModel)]="groupData.Gender" name="Gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Mixed">Mixed</option>
-          </select>
-        </div>
-
-        <div class="col-12 mt-3">
-          <button type="submit" class="btn btn-success" [disabled]="!groupForm.form.valid">Update Group Info</button>
-        </div>
-      </form>
-
-      <hr>
+      <hr class="divider">
 
       <!-- Group Members List Table -->
-      <h5 class="mt-4">Group Members (Min Players Required: <span class="text-danger">{{ minPlayers }}</span>)</h5>
-      <div class="table-responsive mt-3">
-        <table class="table table-bordered table-striped align-middle">
-          <thead class="thead-dark bg-dark text-white">
+      <div class="members-header">
+        <h4>Group Members</h4>
+        <span class="badge-warning">Min Players Required: {{ minPlayers }}</span>
+      </div>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
             <tr>
               <th>#</th>
               <th>Registration ID</th>
               <th>Student Name</th>
               <th>UE ID</th>
-              <th>Action</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let member of groupMembers; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ member.Registration_id }}</td>
-              <td>{{ member.Student_name }}</td>
-              <td>{{ member.ue_id }}</td>
-              <td>
-                <button class="btn btn-danger btn-sm" (click)="removePlayer(member)">
-                  <i class="bi bi-trash"></i> Remove
+              <td><span class="reg-id-badge">{{ member.Registration_id }}</span></td>
+              <td class="student-name">{{ member.Student_name }}</td>
+              <td><code>{{ member.ue_id }}</code></td>
+              <td class="text-center">
+                <button class="btn-danger" (click)="removePlayer(member)">
+                  Remove
                 </button>
               </td>
             </tr>
@@ -80,6 +117,9 @@
         </table>
       </div>
     </div>
-
   </div>
+
+  <!-- <footer class="portal-footer">
+    <small>© 2026 Inter-College Sports Portal | National Informatics Centre (NIC) • All Rights Reserved</small>
+  </footer> -->
 </div>
