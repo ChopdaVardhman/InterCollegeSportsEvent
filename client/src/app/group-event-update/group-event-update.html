@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="card shadow-sm p-4">
+    <h3 class="mb-3">Manage Group Events</h3>
+    
+    <!-- Step 1: Group Selection Dropdown -->
+    <div class="mb-4 row">
+      <label class="col-sm-2 col-form-label fw-bold">Select Group:</label>
+      <div class="col-sm-6">
+        <select class="form-select" [(ngModel)]="selectedGroupName" (change)="onGroupSelect(selectedGroupName)">
+          <option value="">-- Choose Group Name --</option>
+          <option *ngFor="let gName of uniqueGroups" [value]="gName">{{ gName }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Jab tak group select na ho, tab tak ye section hide rahega -->
+    <div *ngIf="selectedGroupName">
+      <hr>
+      <h4 class="text-primary mb-3">Update Details for: {{ selectedGroupName }}</h4>
+
+      <!-- Group Details Update Form -->
+      <form (ngSubmit)="updateGroupDetails()" #groupForm="ngForm" class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label class="form-label">Sport ID</label>
+          <input type="number" class="form-control" [(ngModel)]="groupData.Sport_ID" name="Sport_ID" required readonly>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Category ID</label>
+          <input type="number" class="form-control" [(ngModel)]="groupData.Category_ID" name="Category_ID" required>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">College ID</label>
+          <input type="number" class="form-control" [(ngModel)]="groupData.College_Id" name="College_Id" required>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Gender</label>
+          <select class="form-control" [(ngModel)]="groupData.Gender" name="Gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Mixed">Mixed</option>
+          </select>
+        </div>
+
+        <div class="col-12 mt-3">
+          <button type="submit" class="btn btn-success" [disabled]="!groupForm.form.valid">Update Group Info</button>
+        </div>
+      </form>
+
+      <hr>
+
+      <!-- Group Members List Table -->
+      <h5 class="mt-4">Group Members (Min Players Required: <span class="text-danger">{{ minPlayers }}</span>)</h5>
+      <div class="table-responsive mt-3">
+        <table class="table table-bordered table-striped align-middle">
+          <thead class="thead-dark bg-dark text-white">
+            <tr>
+              <th>#</th>
+              <th>Registration ID</th>
+              <th>Student Name</th>
+              <th>UE ID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of groupMembers; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ member.Registration_id }}</td>
+              <td>{{ member.Student_name }}</td>
+              <td>{{ member.ue_id }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="removePlayer(member)">
+                  <i class="bi bi-trash"></i> Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
