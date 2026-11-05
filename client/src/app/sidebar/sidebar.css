@@ -14,6 +14,7 @@
   justify-content: space-between;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
   box-sizing: border-box;
+  transition: transform 0.3s ease, width 0.3s ease;
 }
 
 .sidebar-brand {
@@ -26,6 +27,7 @@
 
 .brand-icon {
   font-size: 26px;
+  flex-shrink: 0;
 }
 
 .brand-text h3 {
@@ -33,11 +35,13 @@
   font-size: 15px;
   font-weight: 700;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .brand-text span {
   font-size: 11.5px;
   color: #64748b;
+  white-space: nowrap;
 }
 
 .sidebar-nav {
@@ -46,6 +50,7 @@
   gap: 6px;
   padding: 16px 12px;
   flex: 1;
+  overflow-y: auto;
 }
 
 .nav-link {
@@ -59,6 +64,7 @@
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -93,9 +99,112 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-sidebar-logout:hover {
   background-color: #ffe4e6;
   border-color: #fda4af;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints for Sidebar
+   ========================================================================== */
+
+/* --- Tablet (<= 992px): 68px Clean Icon Rail --- */
+@media (max-width: 992px) {
+  .sidebar-wrapper {
+    width: 68px;
+    min-width: 68px;
+  }
+
+  .sidebar-brand {
+    padding: 16px 8px;
+    justify-content: center;
+  }
+
+  /* Text hide, sirf icons visible */
+  .brand-text,
+  .nav-link span,
+  .btn-sidebar-logout span {
+    display: none !important;
+  }
+
+  .sidebar-nav {
+    padding: 12px 6px;
+    align-items: center;
+  }
+
+  .nav-link {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .sidebar-footer {
+    padding: 12px 6px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-sidebar-logout {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+/* --- Mobile (<= 768px): Slide-over Drawer / Off-canvas --- */
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    min-width: 260px;
+    z-index: 9999;
+    transform: translateX(-100%); /* Screen ke bahar chipka rahega */
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Jab user menu button press karega, sirf ye class toggle karni hai */
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Drawer khulne par text wapas dikhayega */
+  .brand-text,
+  .nav-link span,
+  .btn-sidebar-logout span {
+    display: inline-block !important;
+  }
+
+  .sidebar-brand {
+    padding: 20px 18px;
+    justify-content: flex-start;
+  }
+
+  .sidebar-nav {
+    padding: 16px 12px;
+    align-items: stretch;
+  }
+
+  .nav-link {
+    width: 100%;
+    height: auto;
+    padding: 10px 14px;
+    justify-content: flex-start;
+  }
+
+  .sidebar-footer {
+    padding: 16px 12px;
+  }
+
+  .btn-sidebar-logout {
+    width: 100%;
+    height: auto;
+    padding: 9px 14px;
+  }
 }

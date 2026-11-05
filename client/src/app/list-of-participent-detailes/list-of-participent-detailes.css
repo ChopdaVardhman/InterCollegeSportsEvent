@@ -378,3 +378,143 @@ mat-paginator {
   align-items: center;
   gap: 6px;
 }
+
+
+
+
+/* ==========================================================================
+   Fixed Responsive Breakpoints (Table & Listing Portal)
+   ========================================================================== */
+
+/* --- Tablets & Small Desktops (<= 992px) --- */
+@media (max-width: 992px) {
+  .header-inner,
+  .stats-overview-section,
+  .main-body-container,
+  .footer-inner {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* 4 stats cards ko 2x2 grid bana do */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* --- Mobile View (<= 768px) - Complete Fix --- */
+@media (max-width: 768px) {
+  /* 1. Main root container ko pura screen width do */
+  :host,
+  .list-portal-root {
+    width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* 2. Top header adjustments */
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .header-right-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-top-logout {
+    grid-column: span 2;
+  }
+
+  /* 3. Stats Grid: 2 columns on mobile */
+  .stats-overview-section {
+    padding: 0 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  /* 4. Filters Toolbar: Clean vertical stack */
+  .main-body-container {
+    padding: 0 12px 20px;
+    margin-top: 10px;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .filters-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .search-box,
+  .search-box input,
+  .filter-dropdown,
+  .filter-dropdown select,
+  .btn-reset,
+  .btn-export-pdf {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* 5. Table Container: Squeeze khatam, Smooth Horizontal Scroll */
+  .table-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+  }
+
+  /* Table ko uski natural full width do taaki columns squish na ho */
+  .custom-table {
+    min-width: 950px !important;
+    table-layout: auto !important; /* Fixed layout se columns squish ho rahe the */
+  }
+
+  .custom-table th.mat-header-cell,
+  .custom-table td.mat-cell {
+    padding: 8px 10px;
+    white-space: nowrap; /* Text multiple lines me tootna band hoga */
+  }
+
+  /* 6. Footer */
+  .footer-inner {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    padding: 12px;
+  }
+}
+
+/* --- Chhoti Mobile Screens (<= 480px) --- */
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr; /* Stats cards 1 column me */
+  }
+
+  .title-meta h1 {
+    font-size: 15px;
+  }
+}
